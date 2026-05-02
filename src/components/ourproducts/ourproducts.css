@@ -1,0 +1,124 @@
+.categorycontent {
+ width: 200px;
+ height: 200px;
+ margin-right: 20px;
+ margin-bottom: 20px;
+}
+.categorycontent img{
+    width: 100%;;
+    height: 100%;
+}
+.flourandricecategory {
+    display: flex;
+}
+
+
+/* OurProduct.css */
+
+.bellowsectionofflourandrice {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 100px;
+  }
+  
+  .bellowsectionofflourandrice form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .bellowsectionofflourandrice label {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .bellowsectionofflourandrice input[type="text"],
+  .bellowsectionofflourandrice textarea,
+  .bellowsectionofflourandrice input[type="file"] {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+  
+  .bellowsectionofflourandrice textarea {
+    resize: vertical; /* Allow vertical resizing of textarea */
+    min-height: 20px; /* Ensure a minimum height for textarea */
+  }
+  
+  .bellowsectionofflourandrice button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+    margin-bottom: 50px;
+  }
+  
+  .bellowsectionofflourandrice button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  
+/* OurProduct.css or your preferred CSS file */
+
+.flor-rice-other-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 100px;
+  }
+  
+  .admin-category-bellowsection {
+    flex: 1;
+    max-width: 150px; /* Adjust as needed */
+  }
+  
+  .admin-category-bellowsection img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flor-rice-other-section > div:nth-child(2) {
+    flex: 2;
+  }
+  
+  .flor-rice-other-section > div:nth-child(2) > div {
+    margin-bottom: 10px;
+  }
+  
+  .utrakhand-herb {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .category-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .category-details {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  

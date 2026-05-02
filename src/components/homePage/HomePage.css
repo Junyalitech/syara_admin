@@ -1,0 +1,141 @@
+.home-container {
+  padding: 30px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  
+}
+
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Upload Card */
+.upload-card {
+  margin-bottom: 30px;
+}
+
+.upload-card h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.form-grid textarea {
+  grid-column: span 2;
+  resize: none;
+  height: 80px;
+}
+
+.form-grid input,
+.form-grid textarea ,.form-grid  select{
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus {
+  border-color: #002f6c;
+}
+
+/* File Upload */
+.file-upload {
+  grid-column: span 2;
+  border: 2px dashed #ccc;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.file-upload input {
+  display: none;
+}
+
+/* Buttons */
+.btn-primary {
+  grid-column: span 2;
+  background: #4caf50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #28682a;
+}
+
+.btn-danger {
+  background: #ec1e24;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Gallery */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Image Card */
+.image-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.image-info {
+  margin-top: 10px;
+}
+
+.image-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.image-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.button-tag {
+  display: inline-block;
+  background: #4caf50;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 5px;
+}

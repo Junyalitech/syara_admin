@@ -1,0 +1,142 @@
+.orders-container {
+  padding: 30px;
+}
+
+.orders-container h2 {
+  margin-bottom: 20px;
+}
+
+/* Table */
+.orders-table {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.orders-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table thead {
+  background: #28a745;
+  color: white;
+}
+
+.orders-table th, .orders-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.orders-table tr:hover {
+  background: #f5f7fb;
+}
+
+/* Status badges */
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+/* Different statuses */
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 20px;
+}
+
+.order-loading {
+  text-align: center;
+  padding: 20px;
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: none;
+  background: #0f9d58;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: 500;
+}
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-input {
+  padding: 8px 12px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.deliver-btn {
+  padding: 6px 10px;
+  border: none;
+  background: #28a745;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.deliver-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.delivered {
+  background: #e6f7ee;
+  color: #0f9d58;
+}
+
+.status.pending {
+  background: #fff4e5;
+  color: #ff9800;
+}

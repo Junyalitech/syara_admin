@@ -1,0 +1,40 @@
+.faq-container {
+  margin-top: 40px;
+}
+
+.faq-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-form input,
+.faq-form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.faq-form textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* FAQ list */
+.faq-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* FAQ item */
+.faq-item h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.faq-item p {
+  font-size: 14px;
+  color: #555;
+}
