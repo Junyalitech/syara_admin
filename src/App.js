@@ -53,7 +53,7 @@ function App() {
 
   return (
 
-    <Router>
+    <Router basename="/admin">
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
