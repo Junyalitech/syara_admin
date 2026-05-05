@@ -71,9 +71,9 @@ const Login = () => {
       </form>
       {error && <p style={styles.error}>{error}</p>}
       
-      {/* <p style={styles.createAccount}>
+      <p style={styles.createAccount}>
         Don't have an account? <Link to="/registrationuser" style={styles.link}>Create Account</Link>
-      </p> */}
+      </p>
     </div>
   );
 };
