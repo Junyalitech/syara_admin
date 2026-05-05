@@ -17,10 +17,33 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd ~/syara_admin
+            echo "🚀 START ADMIN DEPLOY"
+
+            cd ~/syara_admin || exit 1
+            pwd
+
+            echo "📥 Pull latest code"
             git pull origin main
+
+            echo "📦 Install dependencies"
             npm install
+
+            echo "🏗️ Building project"
             npm run build
+
+            echo "📁 Checking build folder"
+            ls -la build
+
+            echo "🧹 Clearing old files"
             rm -rf /var/www/admin/*
+
+            echo "📤 Copy new build"
             cp -r build/* /var/www/admin/
+
+            echo "📁 Final files in nginx"
+            ls -la /var/www/admin
+
+            echo "🔄 Restart nginx"
             systemctl restart nginx
+
+            echo "✅ DEPLOY DONE"
