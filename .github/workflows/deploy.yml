@@ -19,8 +19,13 @@ jobs:
           script: |
             echo "🚀 START ADMIN DEPLOY"
 
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            node -v
+            npm -v
+
             cd ~/syara_admin || exit 1
-            pwd
 
             echo "📥 Pull latest code"
             git pull origin main
