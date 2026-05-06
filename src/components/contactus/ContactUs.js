@@ -39,7 +39,7 @@ const ContactUs = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Email</th>
+            {/* <th>Email</th> */}
             <th>Phone</th>
             <th>Subject</th>
             <th>Message</th>
@@ -50,7 +50,7 @@ const ContactUs = () => {
           {contacts.map((contact) => (
             <tr key={contact._id}>
               <td>{contact.name}</td>
-              <td>{contact.email}</td>
+              {/* <td>{contact.email}</td> */}
               <td>{contact.phone}</td>
               <td>{contact.subject}</td>
               <td>{contact.message}</td>

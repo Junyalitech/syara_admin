@@ -7,6 +7,9 @@ const TopCategory = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [items, setItems] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false); // for fetch
+  const [deleteLoadingId, setDeleteLoadingId] = useState(null); // for delete button
+  const [uploadLoading, setUploadLoading] = useState(false); // for upload button
 
   // Handle image change
   const handleImageChange = (e) => {
@@ -33,6 +36,7 @@ const TopCategory = () => {
     formData.append('description', description);
 
     try {
+      setUploadLoading(true);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/categories`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -51,16 +55,22 @@ const TopCategory = () => {
       console.error('Error uploading item:', error);
       alert('Failed to upload item. Please try again.');
     }
+    finally{
+      setUploadLoading(false);
+    }
   };
 
   // Fetch items from the server
   const fetchItems = async () => {
     try {
+      setDataLoading(true);
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/categories`);
       setItems(response.data);
     } catch (error) {
       console.error('Error fetching items:', error);
       alert('Failed to fetch items. Please try again.');
+    }
+    finally {     setDataLoading(false);
     }
   };
 
@@ -76,6 +86,8 @@ const TopCategory = () => {
       return;
     }
 
+    setDeleteLoadingId(itemId);
+
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/categories/${itemId}`);
       alert('Item deleted successfully');
@@ -85,11 +97,14 @@ const TopCategory = () => {
     } catch (error) {
       alert('Failed to delete item. Please try again.');
     }
+    finally {
+      setDeleteLoadingId(null);
+    }
   };
 
   return (
     <div className="top-category-container">
-      <h2 className="heading">Top Category</h2>
+      <h2 className="heading">Category</h2>
       <form className="upload-form-category" onSubmit={handleSubmit}>
         <label className="custom-file-upload">
           <input className="file-input-home" type="file" onChange={handleImageChange} />
@@ -97,7 +112,9 @@ const TopCategory = () => {
         </label>
         <input className="text-input" type="text" value={name} onChange={handleNameChange} placeholder="Enter Name" />
         <textarea className="description-input" value={description} onChange={handleDescriptionChange} placeholder="Enter Description"></textarea>
-        <button className="upload-button1" type="submit">Upload Item</button>
+        <button className="upload-button1" type="submit" disabled={uploadLoading}>
+          {uploadLoading ? 'Uploading...' : 'Upload Item'}
+        </button>
       </form>
 
       <div style={{ width: '100%', overflowY: 'auto', maxHeight: '400px', padding: '10px', border: '1px solid #ddd' }}>
@@ -111,7 +128,16 @@ const TopCategory = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map(item => (
+            {dataLoading ? (
+              <tr>
+                <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td>
+              </tr>
+            ) : items.length === 0 ? (
+              <tr>
+                <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>No items found.</td>
+              </tr>
+            ) : 
+            items.map(item => (
               <tr key={item.id}>
                 <td>
                   {item.image ? (
@@ -130,8 +156,9 @@ const TopCategory = () => {
                   <button
                     className="delete-button"
                     onClick={() => handleDeleteButtonClick(item.id)}
+                    disabled={deleteLoadingId === item.id}
                   >
-                    Delete
+                    {deleteLoadingId === item.id ? 'Deleting...' : 'Delete'}  
                   </button>
                 </td>
               </tr>

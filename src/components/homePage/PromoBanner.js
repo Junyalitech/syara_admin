@@ -5,6 +5,8 @@ const PromoBanner = () => {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [imageName, setImageName] = useState('');
+    const [dataLoading, setDataLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
     const [images, setImages] = useState([]);
     const [form, setForm] = useState({
         title: "",
@@ -91,11 +93,15 @@ const PromoBanner = () => {
 
     const fetchImages = async () => {
         try {
+            setDataLoading(true)
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/gettwoBanner`);
             console.log('Fetched images:', response.data);
             setImages(response.data);
         } catch (error) {
             console.error('Error fetching images:', error);
+        }
+        finally {
+            setDataLoading(false)
         }
     };
 
@@ -108,6 +114,8 @@ const PromoBanner = () => {
             console.error('User or user ID is undefined');
             return;
         }
+
+        setDeleteLoading(true)
         try {
             const response = await axios.delete(`${process.env.REACT_APP_API_URL}/upload/${user.id}`);
             console.log('Item deleted successfully:', response.data);
@@ -115,6 +123,9 @@ const PromoBanner = () => {
             setImages(prevImages => prevImages.filter(img => img.id !== user.id));
         } catch (error) {
             console.error('Error deleting item:', error);
+        }
+        finally {
+            setDeleteLoading(false)
         }
     };
 
@@ -161,44 +172,53 @@ const PromoBanner = () => {
                 </form>
             </div>
 
-            {/* Gallery */}
-            <div className="gallery">
-                {images.map((item) => (
-                    <div key={item.id} className="card image-card">
+            {
+                dataLoading ? (
+                    <p style={{ textAlign: "center" }}>Loading images...</p>
+                ) : (
 
-                        {/* Image */}
-                        {item.image && (
-                            <img
-                                src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`}
-                                alt={item.title}
-                            />
-                        )}
+                    <div className="gallery">
+                        {images.map((item) => (
+                            <div key={item.id} className="card image-card">
 
-                        {/* Data */}
-                        <div className="image-info">
-                            <h3>{item.title || "No Title"}</h3>
+                                {/* Image */}
+                                {item.image && (
+                                    <img
+                                        src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`}
+                                        alt={item.title}
+                                    />
+                                )}
 
-                            {item.subtitle && (
-                                <p className="subtitle">{item.subtitle}</p>
-                            )}
+                                {/* Data */}
+                                <div className="image-info">
+                                    <h3>{item.title || "No Title"}</h3>
 
-                            <p>{item.description || "No Description"}</p>
+                                    {item.subtitle && (
+                                        <p className="subtitle">{item.subtitle}</p>
+                                    )}
 
-                            {/* {item.button && (
+                                    <p>{item.description || "No Description"}</p>
+
+                                    {/* {item.button && (
                 <span className="button-tag">{item.button}</span>
               )} */}
-                        </div>
+                                </div>
 
-                        {/* Delete */}
-                        <button
-                            className="btn-danger"
-                            onClick={() => handleDeleteButtonClick(item)}
-                        >
-                            Delete
-                        </button>
+                                {/* Delete */}
+                                <button
+                                    className="btn-danger"
+                                    disabled={deleteLoading}
+                                    onClick={() => handleDeleteButtonClick(item)}
+                                >
+                                    {deleteLoading ? "Deleting..." : 'Delete'}
+                                </button>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                )
+            }
+            {/* Gallery */}
+
         </div>
     )
 }

@@ -8,6 +8,7 @@ import DirectorManagingWords from './DirectorManagingWords'
 import Team from './Team';
 import FAQ from './Faq';
 const OurMissionForm = () => {
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     image: null,
     text1: '',
@@ -53,6 +54,7 @@ const OurMissionForm = () => {
     missionData.append('text10', formData.text10);
 
     try {
+      setLoading(true)
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/our-mission`, missionData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -62,6 +64,22 @@ const OurMissionForm = () => {
       alert('OurMission data added successfully!');
     } catch (error) {
       console.error('Error submitting OurMission data:', error);
+    }
+    finally {
+      setLoading(false)
+      setFormData({
+        image: null,
+        text1: '',
+        text2: '',
+        text3: '',
+        text4: '',
+        text5: '',
+        text6: '',
+        text7: '',
+        text8: '',
+        text9: '',
+        text10: '',
+      })
     }
   };
 
@@ -249,10 +267,11 @@ const OurMissionForm = () => {
           <button
             type="submit"
             style={buttonStyle}
+            disabled={loading}
             onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
             onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
           >
-            Submit
+            {loading ? 'Submitting...' : 'Submit'}
           </button>
         </form>
         {/**Mission ko show karane k leye code likha gya h */}
@@ -271,12 +290,12 @@ const OurMissionForm = () => {
       </div>
       <div>
         {/* <DirectorManagingWords /> */}
-        <Team/>
+        <Team />
       </div>
 
       <div>
         {/* <DirectorManagingWords /> */}
-        <FAQ/>
+        <FAQ />
       </div>
     </>
   );

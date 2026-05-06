@@ -69,7 +69,7 @@ const DisplayProducts = () => {
         } catch (error) {
             console.error('Error updating product:', error);
         }
-        finally{
+        finally {
             setEditLoading(false);
         }
     };
@@ -160,6 +160,15 @@ const DisplayProducts = () => {
                             style={input}
                         />
 
+                        <label style={label}>Product Description</label>
+                        <input
+                            type="text"
+                            name="description"
+                            value={currentProduct.description}
+                            onChange={handleInputChange}
+                            style={input}
+                        />
+
                         {/* Price */}
                         <label style={label}>Base Price</label>
                         <input
@@ -228,7 +237,7 @@ const DisplayProducts = () => {
                         />
 
                         {/* Prices */}
-                        <label style={label}>1{ currentProduct.is_liquid ? 'L' : 'kg'} Price</label>
+                        <label style={label}>1{currentProduct.is_liquid ? 'L' : 'kg'} Price</label>
                         <input
                             type="number"
                             name="packeoption1kgrate"
@@ -237,7 +246,7 @@ const DisplayProducts = () => {
                             style={input}
                         />
 
-                        <label style={label}>500{ currentProduct.is_liquid ? 'ml' : 'g'} Price</label>
+                        <label style={label}>500{currentProduct.is_liquid ? 'ml' : 'g'} Price</label>
                         <input
                             type="number"
                             name="packeoption500gmrate"
@@ -379,12 +388,12 @@ const grid = {
 };
 
 const label = {
-  display: "block",
-  fontWeight: "600",
-  marginBottom: "5px",
-  marginTop: "10px",
-  fontSize: "14px",
-  color: "#333",
+    display: "block",
+    fontWeight: "600",
+    marginBottom: "5px",
+    marginTop: "10px",
+    fontSize: "14px",
+    color: "#333",
 };
 
 

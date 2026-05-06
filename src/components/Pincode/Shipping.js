@@ -168,6 +168,7 @@ const ShippingPage = () => {
 
         } catch (err) {
             console.log(err);
+            alert(err?.response?.data?.message || "Something went wrong. Please try after some time.")
         } finally {
             setBtnLoading(false);
         }

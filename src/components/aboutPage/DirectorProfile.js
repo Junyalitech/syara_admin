@@ -2,16 +2,36 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import OurCompanyProfie from './OurDirectorProfileGet'
 const OurMissionForm = () => {
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     image: null,
     text: '',
   });
 
+
+  const MAX_WORDS = 25;
+
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+
+    // Split into words
+    const words = value.trim().split(/\s+/);
+
+    // If within limit
+    if (words.length <= MAX_WORDS) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      // Trim extra words automatically
+      const limitedText = words.slice(0, MAX_WORDS).join(" ");
+
+      setFormData((prev) => ({
+        ...prev,
+        [name]: limitedText,
+      }));
+    }
   };
 
   const handleImageChange = (e) => {
@@ -29,6 +49,7 @@ const OurMissionForm = () => {
     missionData.append('text', formData.text);
 
     try {
+      setLoading(true)
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/director-profile`, missionData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -38,6 +59,13 @@ const OurMissionForm = () => {
       alert('OurMission data added successfully!');
     } catch (error) {
       console.error('Error submitting OurMission data:', error);
+    }
+    finally {
+      setFormData({
+        image: null,
+        text: '',
+      })
+      setLoading(false)
     }
   };
 
@@ -115,20 +143,27 @@ const OurMissionForm = () => {
             placeholder="Description"
             style={inputStyle}
           />
+
+          <p style={{ fontSize: "12px", color: "gray" }}>
+            {formData.text.trim() === ""
+              ? `0/${MAX_WORDS} words`
+              : `${formData.text.trim().split(/\s+/).length}/${MAX_WORDS} words`}
+          </p>
         </div>
 
         <div style={formGroupStyle}>
           <button
             type="submit"
+            disabled={loading}
             style={buttonStyle}
             onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
             onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
-      <OurCompanyProfie/>
+      <OurCompanyProfie />
     </div>
   );
 };

@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const MissionTable = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch data from API
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/our-mission/api`); // Replace with your GET API endpoint
         console.log(response.data); // Log the response to see the structure
@@ -19,6 +21,9 @@ const MissionTable = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      }
+      finally{
+        setLoading(false)
       }
     };
     fetchData();
@@ -71,7 +76,10 @@ const MissionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          { loading ? (
+            <tr> <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td></tr>
+          ) :
+          data.map((item, index) => (
             <tr key={index}>
               <td style={tdStyle}>  
                 <img src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />

@@ -9,6 +9,8 @@ const OurTeam = () => {
     description: ""
   });
 
+  const [loading,setLoading] = useState(false)
+  const [deleteLoading,setDeleteLoading] = useState(null)
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState("");
   const [team, setTeam] = useState([]);
@@ -42,6 +44,7 @@ const OurTeam = () => {
     formData.append("description", form.description);
 
     try {
+      setLoading(true)
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/create-our-team`,
         formData
@@ -57,6 +60,9 @@ const OurTeam = () => {
       setImageName("");
     } catch (err) {
       console.error(err);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -76,6 +82,7 @@ const OurTeam = () => {
 
   // Delete
   const handleDelete = async (id) => {
+    setDeleteLoading(id)
     try {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/delete-our-team/${id}`
@@ -84,6 +91,9 @@ const OurTeam = () => {
       setTeam((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       console.error(err);
+    }
+    finally{
+      setDeleteLoading(null)
     }
   };
 
@@ -131,8 +141,8 @@ const OurTeam = () => {
             {imageName || "Choose Image"}
           </label>
 
-          <button type="submit" className="btn-primary">
-            Add Member
+          <button disabled={loading} type="submit" className="btn-primary">
+            {loading ? "Adding" : "Add Member" }
           </button>
         </form>
       </div>
@@ -152,9 +162,10 @@ const OurTeam = () => {
 
             <button
               className="btn-danger"
+              disabled={deleteLoading === member.id}
               onClick={() => handleDelete(member.id)}
             >
-              Delete
+              {deleteLoading === member.id ? "Deleting..." : "Delete" }
             </button>
           </div>
         ))}

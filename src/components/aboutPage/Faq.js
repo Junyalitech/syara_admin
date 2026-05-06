@@ -10,6 +10,7 @@ const FAQ = () => {
 
   const [faqs, setFaqs] = useState([]);
   const [loading,setLoading] = useState(false)
+  const [deleteLoading,setDeleteLoading] = useState(null)
 
   // Handle input
   const handleChange = (e) => {
@@ -64,6 +65,7 @@ const FAQ = () => {
 
   // Delete FAQ
   const handleDelete = async (id) => {
+    setDeleteLoading(id)
     try {
       await axios.delete(
         `${process.env.REACT_APP_API_URL}/delete-faq/${id}`
@@ -72,6 +74,9 @@ const FAQ = () => {
       setFaqs((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       console.error(err);
+    }
+    finally{
+      setDeleteLoading(null)
     }
   };
 
@@ -117,9 +122,10 @@ const FAQ = () => {
 
             <button
               className="btn-danger"
+              disabled={deleteLoading === item.id}
               onClick={() => handleDelete(item.id)}
             >
-              Delete
+              {deleteLoading === item.id ? "Deleting..." : "Delete" }
             </button>
           </div>
         ))}

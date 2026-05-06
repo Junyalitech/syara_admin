@@ -108,6 +108,8 @@ const Orders = () => {
                 </td>
               </tr>
 
+            ) : orders.length === 0 ? (
+              <p className="empty">No orders found</p>
             ) : orders.map((order) => (
               <tr key={order.orderId}>
                 <td>#{order.orderId}</td>
@@ -138,10 +140,10 @@ const Orders = () => {
                 <td>{order.paymentType}</td>
 
                 <td>{order.address}</td>
-                <td  style={{textTransform:'capitalize'}}>{formatDate(order.createdAt)}</td>
+                <td style={{ textTransform: 'capitalize' }}>{formatDate(order.createdAt)}</td>
 
                 {/* <td>{new Date(order.deliveryTime).toLocaleDateString()}</td> */}
-                <td style={{textTransform:'capitalize'}}>
+                <td style={{ textTransform: 'capitalize' }}>
                   {order.orderStatus === "delivered"
                     ? formatDate(order.deliveryTime)
                     : `${formatDate(order.deliveryTime)} (expected)`}
@@ -184,9 +186,7 @@ const Orders = () => {
           </button>
         </div>
 
-        {orders.length === 0 && (
-          <p className="empty">No orders found</p>
-        )}
+
       </div>
     </div>
   );
