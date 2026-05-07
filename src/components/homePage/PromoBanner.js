@@ -117,7 +117,7 @@ const PromoBanner = () => {
 
         setDeleteLoading(true)
         try {
-            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/upload/${user.id}`);
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/deleteTwoBanner/${user.id}`);
             console.log('Item deleted successfully:', response.data);
             alert('Delete images of home slider is successfully');
             setImages(prevImages => prevImages.filter(img => img.id !== user.id));
