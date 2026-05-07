@@ -79,9 +79,9 @@ const HomePage = () => {
         }
       );
 
+      
+      await fetchImages();
       alert('Uploaded successfully');
-
-      setImages(prev => [response.data, ...prev]);
 
       // reset
       setImage(null);

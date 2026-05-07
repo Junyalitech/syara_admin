@@ -6,7 +6,7 @@ const PromoBanner = () => {
     const [loading, setLoading] = useState(false);
     const [imageName, setImageName] = useState('');
     const [dataLoading, setDataLoading] = useState(false)
-    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(null)
     const [images, setImages] = useState([]);
     const [form, setForm] = useState({
         title: "",
@@ -28,6 +28,24 @@ const PromoBanner = () => {
         };
 
         fetchCategories();
+    }, []);
+
+    const fetchImages = async () => {
+        try {
+            setDataLoading(true)
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/gettwoBanner`);
+            console.log('Fetched images:', response.data);
+            setImages(response.data);
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        }
+        finally {
+            setDataLoading(false)
+        }
+    };
+
+    useEffect(() => {
+        fetchImages();
     }, []);
 
     const handleInputChange = (e) => {
@@ -69,9 +87,11 @@ const PromoBanner = () => {
                 }
             );
 
+            console.log(response.data);
+            await fetchImages();
+
             alert('Uploaded successfully');
 
-            setImages(prev => [response.data, ...prev]);
 
             // reset
             setImage(null);
@@ -91,41 +111,24 @@ const PromoBanner = () => {
         }
     };
 
-    const fetchImages = async () => {
-        try {
-            setDataLoading(true)
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/gettwoBanner`);
-            console.log('Fetched images:', response.data);
-            setImages(response.data);
-        } catch (error) {
-            console.error('Error fetching images:', error);
-        }
-        finally {
-            setDataLoading(false)
-        }
-    };
-
-    useEffect(() => {
-        fetchImages();
-    }, []);
 
     const handleDeleteButtonClick = async (user) => {
         if (!user || !user.id) {
-            console.error('User or user ID is undefined');
+            console.error('Promo banner is undefined');
             return;
         }
 
-        setDeleteLoading(true)
+        setDeleteLoading(user.id);
         try {
             const response = await axios.delete(`${process.env.REACT_APP_API_URL}/deleteTwoBanner/${user.id}`);
-            console.log('Item deleted successfully:', response.data);
-            alert('Delete images of home slider is successfully');
+            console.log('Banner deleted successfully:', response.data);
+            alert('Delete promotion banner is successfully');
             setImages(prevImages => prevImages.filter(img => img.id !== user.id));
         } catch (error) {
             console.error('Error deleting item:', error);
         }
         finally {
-            setDeleteLoading(false)
+            setDeleteLoading(null);
         }
     };
 
@@ -207,10 +210,10 @@ const PromoBanner = () => {
                                 {/* Delete */}
                                 <button
                                     className="btn-danger"
-                                    disabled={deleteLoading}
+                                    disabled={deleteLoading === item.id}
                                     onClick={() => handleDeleteButtonClick(item)}
                                 >
-                                    {deleteLoading ? "Deleting..." : 'Delete'}
+                                    {deleteLoading === item.id ? "Deleting..." : 'Delete'}
                                 </button>
                             </div>
                         ))}
