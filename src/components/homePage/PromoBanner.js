@@ -67,6 +67,11 @@ const PromoBanner = () => {
             return;
         }
 
+        if (!form.title || !form.description || !form.button) {
+            alert('Please fill in all fields before submitting.');
+            return;
+        }
+
         const formData = new FormData();
 
         formData.append('image', image);

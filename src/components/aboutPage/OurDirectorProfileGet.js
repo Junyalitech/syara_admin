@@ -66,7 +66,7 @@ const MissionTable = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td style={tdStyle}>
-                <img src={`/api/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
+                <img src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
               </td>
               <td style={tdStyle}>{item.text}</td>
               

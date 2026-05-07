@@ -206,7 +206,7 @@ const ProductForm = () => {
 
         <input
           type="number"
-          placeholder="Stock *"
+          placeholder="Stock (in kg or litre) *"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
           style={input}

@@ -30,6 +30,11 @@ const TopCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(!image || !name || !description) {
+      alert('Please fill in all fields and select an image before submitting.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', image);
     formData.append('name', name);

@@ -59,6 +59,11 @@ const HomePage = () => {
       return;
     }
 
+    if (!form.title || !form.description || !form.button) {
+      alert('Please fill in all fields before submitting.');
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append('image', image);
@@ -79,7 +84,7 @@ const HomePage = () => {
         }
       );
 
-      
+
       await fetchImages();
       alert('Uploaded successfully');
 
@@ -152,10 +157,6 @@ const HomePage = () => {
 
           <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleInputChange} />
 
-          <input type="text" name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleInputChange} />
-
-          <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange} />
-
           <select
             name="button"
             value={form.button}
@@ -170,6 +171,11 @@ const HomePage = () => {
               </option>
             ))}
           </select>
+
+          {/* <input type="text" name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleInputChange} /> */}
+
+          <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange} />
+
 
           <label className="file-upload">
             <input type="file" onChange={handleImageChange} />
