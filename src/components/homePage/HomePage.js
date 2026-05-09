@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../homePage/HomePage.css";
-import NewLaunches from './NewLuanches';
-import TopCategory from './TopCategory';
-import WhyChooseUs from './WhyChooseUs';
-import HallOfFrame from './HallOfFrame';
-import Testimonial from './Testimonial';
-import OurCombooffer from './OurCombooffer';
-import SyaraVideos from './SyaraVideos';
-import SyaraNews from './SyaraNews';
-import ContactForm from './ContactInfo';
-import PromoBanner from './PromoBanner.js';
+import TopCategory from './Category/TopCategory.js';
+import PromoBanner from './PromoBanner/PromoBanner.js';
+import ContactForm from './ClientContact/ContactInfo.js';
+
+import OurCombooffer from './ComboOffer/OurCombooffer';
+import NewLaunches from './NewLaunch/NewLuanches';
+
+
 const HomePage = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -191,7 +189,7 @@ const HomePage = () => {
 
       {
         dataLoading ? (
-          <p style={{ textAlign: "center" }}>Loading images...</p>
+          <p style={{ textAlign: "center" }}>Loading Slider Banners...</p>
         ) : (
           <div className="gallery">
             {images.map((item) => (
@@ -214,10 +212,7 @@ const HomePage = () => {
                   )}
 
                   <p>{item.description || "No Description"}</p>
-
-                  {/* {item.button && (
-                <span className="button-tag">{item.button}</span>
-              )} */}
+                  
                 </div>
 
                 {/* Delete */}
@@ -233,13 +228,9 @@ const HomePage = () => {
           </div>
         )
       }
-      {/* Gallery */}
-
-
-
+      
 
       <TopCategory />
-
       <PromoBanner />
       <ContactForm />
     </div >

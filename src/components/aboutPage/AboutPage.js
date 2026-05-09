@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import OurMission from './OurMission';
-import OurApproach from './OurApproachPost'
-import CompanyProfile from './CompanyProfilePost';
-import DirectorProfile from './DirectorProfile';
-import DirectorManagingWords from './DirectorManagingWords'
-import Team from './Team';
-import FAQ from './Faq';
-const OurMissionForm = () => {
+import OurVision from './OurVision';
+import OurDirectorProfileForm from './DirectorProfile/DirectorProfile';
+import Team from './Team/Team';
+import FAQ from './Faq/Faq';
+
+
+const OurVissionForm = () => {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     image: null,
@@ -274,31 +273,26 @@ const OurMissionForm = () => {
             {loading ? 'Submitting...' : 'Submit'}
           </button>
         </form>
-        {/**Mission ko show karane k leye code likha gya h */}
-        <OurMission />
+        {/**Vision ko show karane k leye code likha gya h */}
+        <OurVision />
       </div>
       <div>
 
-        {/* <OurApproach /> */}
 
       </div>
-      <div>
-        {/* <CompanyProfile />  */}
-      </div>
+
       <div style={{ padding: "28px" }}>
-        <DirectorProfile />
+        <OurDirectorProfileForm />
       </div>
       <div>
-        {/* <DirectorManagingWords /> */}
         <Team />
       </div>
 
       <div>
-        {/* <DirectorManagingWords /> */}
         <FAQ />
       </div>
     </>
   );
 };
 
-export default OurMissionForm;
+export default OurVissionForm;

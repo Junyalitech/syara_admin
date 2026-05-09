@@ -29,6 +29,7 @@ const ContactForm = () => {
 
     fetchContactInfo();
   }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

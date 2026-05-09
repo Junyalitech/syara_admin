@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './Skeleton.css';
 import { FaCaretDown, FaBars, FaTimes } from 'react-icons/fa'; // Make sure FaTimes is imported
 import { Outlet, Link } from "react-router-dom";
+import image from "./assets/user.png"
 
 const Skeleton = () => {
   const [showProductDetails, setShowProductDetails] = useState(false);
@@ -24,8 +25,8 @@ const Skeleton = () => {
 
       <div className={`sidebar ${isSidebarOpen ? '' : 'hidden'}`}>
         <div className='user_profile'>
-          <img style={{ height: "80px" }} src="https://img.icons8.com/officel/80/user.png" alt="user" />
-          <p style={{ fontSize: "20px", fontWeight: "700" }}>Guest User</p>
+          <img style={{ height: "80px" }} src={image} alt="user" />
+          <p style={{ fontSize: "20px", fontWeight: "700",textAlign:'center' }}>Syara Retails</p>
         </div>
 
         <div><Link to='/home'>Home Page</Link></div>
@@ -37,7 +38,7 @@ const Skeleton = () => {
           <div className='navlinks-container-subcontainer navlinks-container-ourproducts'>
             <div className='navlinks-container-ourproduct'><Link to="/ourproduct">Category</Link></div>
 
-            <div className='navlinks-container-ourproduct'><Link to="/pujaitems">Add Products</Link></div>
+            <div className='navlinks-container-ourproduct'><Link to="/addproduct">Add Products</Link></div>
             <div className='navlinks-container-ourproduct'><Link to="showallproducts">Show All Products</Link></div>
 
           </div>

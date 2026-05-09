@@ -1,21 +1,21 @@
 import React, { useContext } from 'react';
-import { ProductContext } from '../context/ProductContext';
+import { ProductContext } from '../../context/ProductContext';
 
-const ProductsPage = () => {
-  const { products, newLaunchesSelected, setNewLaunchesSelected, newLaunchesDisplay, fetchNewLaunchesProducts } = useContext(ProductContext);
+const OurComboOffer = () => {
+  const { products, comboOfferSelected, setComboOfferSelected, comboOfferDisplay, fetchComboOfferProducts } = useContext(ProductContext);
 
   const handleSelect = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setNewLaunchesSelected(selectedOptions);
+    setComboOfferSelected(selectedOptions);
   };
 
   const handleSubmit = () => {
-    fetchNewLaunchesProducts(newLaunchesSelected);
+    fetchComboOfferProducts(comboOfferSelected);
   };
 
   return (
     <div style={{ width: '80%', margin: '0 auto', padding: '20px', textAlign: 'center' }}>
-      <h2>New Launches</h2>
+      <h2>Combo Offers</h2>
       <select
         multiple
         onChange={handleSelect}
@@ -57,7 +57,7 @@ const ProductsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {newLaunchesDisplay.map((product) => (
+          {comboOfferDisplay.map((product) => (
             <tr key={product._id} style={{ borderBottom: '1px solid #ddd' }}>
               <td style={{ padding: '10px', textAlign: 'center' }}>
                 <img
@@ -82,4 +82,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default OurComboOffer;

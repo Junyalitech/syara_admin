@@ -9,10 +9,14 @@ const DisplayProducts = () => {
     const [stockProduct, setStockProduct] = useState(null);
     const [newStock, setNewStock] = useState("");
     const [editLoading, setEditLoading] = useState(false);
+    const [deleteLoadingId, setDeleteLoadingId] = useState(null);
+    const [dataLoading, setDataLoading] = useState(false);
+    const [stockLoadingId, setStockLoadingId] = useState(null);
 
     // Fetch products from the API
     useEffect(() => {
         const fetchProducts = async () => {
+            setDataLoading(true);
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/products/api`);
                 const data = response.data;
@@ -28,6 +32,8 @@ const DisplayProducts = () => {
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
+            } finally {
+                setDataLoading(false);
             }
         };
 
@@ -39,6 +45,7 @@ const DisplayProducts = () => {
         console.log(`Attempting to delete product with slug: ${id}`);
 
         try {
+            setDeleteLoadingId(id);
             await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
             console.log(`Product with slug: ${id} successfully deleted.`);
 
@@ -48,6 +55,9 @@ const DisplayProducts = () => {
             setProducts(products.filter(product => product.id !== id));
         } catch (error) {
             console.error('Error deleting product:', error);
+        }
+        finally {
+            setDeleteLoadingId(null);
         }
     };
 
@@ -90,6 +100,7 @@ const DisplayProducts = () => {
         e.preventDefault();
 
         try {
+            setStockLoadingId(stockProduct.id);
             await axios.put(
                 `${process.env.REACT_APP_API_URL}/update-stock/${stockProduct.id}`,
                 { stock: newStock }
@@ -107,6 +118,9 @@ const DisplayProducts = () => {
 
         } catch (error) {
             console.error("Stock update error:", error);
+        }
+        finally{
+            setStockLoadingId(null);
         }
     };
 
@@ -132,8 +146,8 @@ const DisplayProducts = () => {
                     />
 
                     <div style={btnGroup}>
-                        <button type="submit" style={primaryBtn}>
-                            Update
+                        <button type="submit" disabled={stockLoadingId === stockProduct.id} style={primaryBtn}>
+                            {stockLoadingId === stockProduct.id ? "Updating..." : "Update Stock"}
                         </button>
 
                         <button
@@ -305,6 +319,11 @@ const DisplayProducts = () => {
                             </button>
                         </div>
                     </form>
+                ) : dataLoading ? (
+                    <div style={loadingContainer}>
+                        <div style={loader}></div>
+                        <p>Loading products...</p>
+                    </div>
                 ) : (
                     <div style={grid}>
                         {products.map((product) => (
@@ -354,8 +373,9 @@ const DisplayProducts = () => {
                                         <button
                                             onClick={() => handleDelete(product.id)}
                                             style={dangerBtn}
+                                            disabled={deleteLoadingId === product.id}
                                         >
-                                            Delete
+                                            {deleteLoadingId === product.id ? "Deleting..." : "Delete"}
                                         </button>
                                     </div>
                                 </div>
@@ -418,7 +438,23 @@ const cardBody = {
     textAlign: "center",
 };
 
+const loadingContainer = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "300px",
+    gap: "15px",
+};
 
+const loader = {
+    width: "45px",
+    height: "45px",
+    border: "5px solid #ddd",
+    borderTop: "5px solid #28a745",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite",
+};
 
 const price = {
     color: "#28a745",

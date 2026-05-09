@@ -4,14 +4,13 @@ import Skeleton from '../src/Skeleton.js';
 import HomePage from '../src/components/homePage/HomePage.js';
 import ContactUs from './components/contactus/ContactUs.js';
 import AboutPage from './components/aboutPage/AboutPage.js';
-import OurProduct from './components/ourproducts/OurProduct.js';
+import Category from './components/ourproducts/Category.js';
+
 import Login from './components/Login.js';
 import RegistrationLogin from './components/RegistrationLogin.js';
-import Blogs from './components/blogs/Blogs.js';
 
-import PujaItems from './components/ourproducts/PujaItems.js';
-import GiftCosmatic from './components/ourproducts/GiftCosmatic.js';
-import CartPage from './components/cart/CartPage.js';
+import AddProduct from './components/ourproducts/AddProduct.js';
+import DisplayProducts from './components/ourproducts/ProductsList.js';
 import ShippingPage from './components/Pincode/Shipping.js';
 import Orders from './components/OrderPage/Order.js';
 
@@ -61,17 +60,15 @@ function App() {
 
         <Route path="/" element={<PrivateRoute><Skeleton /></PrivateRoute>}>
           <Route path="home" element={<HomePage />} />
-          <Route path="cartpage" element={<CartPage />} />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="aboutus" element={<AboutPage />} />
-          <Route path="ourproduct" element={<OurProduct />} />
-          <Route path="blogs" element={<Blogs />} />
 
           <Route path="shipping" element={<ShippingPage />} />
           <Route path="orders" element={<Orders />} />
 
-          <Route path="pujaitems" element={<PujaItems />} />
-          <Route path="showallproducts" element={<GiftCosmatic />} />
+          <Route path="ourproduct" element={<Category />} />
+          <Route path="addproduct" element={<AddProduct />} />
+          <Route path="showallproducts" element={<DisplayProducts />} />
 
         </Route>
       </Routes>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "../homePage/TopCategory.css"; // Import the CSS file
+import "./TopCategory.css"; // Import the CSS file
 
 const TopCategory = () => {
   const [image, setImage] = useState(null);
@@ -122,7 +122,7 @@ const TopCategory = () => {
         </button>
       </form>
 
-      <div style={{ width: '100%', overflowY: 'auto', maxHeight: '400px', padding: '10px', border: '1px solid #ddd' }}>
+      <div  className="table-wrapper scroll-container">
         <table className="category-table">
           <thead>
             <tr>

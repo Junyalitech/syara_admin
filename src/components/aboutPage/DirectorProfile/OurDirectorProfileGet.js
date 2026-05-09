@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const MissionTable = () => {
+const OurDirectorProfile = () => {
   const [data, setData] = useState([]);
 
   // Fetch data from API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/company-profile/api`); // Replace with your GET API endpoint
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/director-profile/api`); // Replace with your GET API endpoint
         console.log(response.data); // Log the response to see the structure
 
         // Extract the 'data' array from the response object
@@ -53,7 +53,7 @@ const MissionTable = () => {
 
   return (
     <div>
-      <h2 style={{ textAlign: 'center', marginBottom: '20px',marginTop:"20px" }}>Our Company Profile </h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px',marginTop:"20px" }}>Our Director Profile </h2>
       <table style={tableStyle}>
         <thead>
           <tr>
@@ -66,7 +66,7 @@ const MissionTable = () => {
           {data.map((item, index) => (
             <tr key={index}>
               <td style={tdStyle}>
-                <img src={`/api/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
+                <img src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
               </td>
               <td style={tdStyle}>{item.text}</td>
               
@@ -78,4 +78,4 @@ const MissionTable = () => {
   );
 };
 
-export default MissionTable;
+export default OurDirectorProfile;
