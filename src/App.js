@@ -13,6 +13,7 @@ import AddProduct from './components/ourproducts/AddProduct.js';
 import DisplayProducts from './components/ourproducts/ProductsList.js';
 import ShippingPage from './components/Pincode/Shipping.js';
 import Orders from './components/OrderPage/Order.js';
+import PromotionalMessages from './components/Promotional_whatsapp/promotional.sms.jsx';
 
 
 
@@ -65,6 +66,7 @@ function App() {
 
           <Route path="shipping" element={<ShippingPage />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="promotional" element={<PromotionalMessages />} />
 
           <Route path="ourproduct" element={<Category />} />
           <Route path="addproduct" element={<AddProduct />} />

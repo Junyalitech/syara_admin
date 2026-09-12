@@ -1,0 +1,483 @@
+.promotional-page {
+  padding: 20px;
+  background: #f8faf8;
+  min-height: 100%;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.promo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.promo-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.promo-header p {
+  margin: 6px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.whatsapp-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #e6f5e8;
+  color: #2b7735;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #2b7735;
+  border-radius: 50%;
+}
+
+
+/* =========================
+   ALERT
+========================= */
+
+.promo-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 13px 16px;
+  margin-bottom: 20px;
+
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.alert-success {
+  background: #e6f9f0;
+  color: #187a4d;
+  border: 1px solid #c5ecd8;
+}
+
+.alert-error {
+  background: #fdecea;
+  color: #d32f2f;
+  border: 1px solid #f5c6c2;
+}
+
+.alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.alert-close {
+  margin-left: auto;
+
+  border: none;
+  background: transparent;
+
+  font-size: 20px;
+  color: inherit;
+  cursor: pointer;
+}
+
+
+/* =========================
+   CAMPAIGN GRID
+========================= */
+
+.campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+
+/* =========================
+   CAMPAIGN CARD
+========================= */
+
+.campaign-card {
+  background: #fff;
+
+  padding: 22px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  border: 1px solid #eeeeee;
+}
+
+.campaign-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  margin-bottom: 20px;
+}
+
+.campaign-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #e6f5e8;
+
+  font-size: 22px;
+}
+
+.sale-icon {
+  background: #eef7ee;
+}
+
+.campaign-top h2 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  color: #333;
+}
+
+.campaign-top p {
+  margin: 4px 0 0;
+
+  font-size: 13px;
+  color: #777;
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+.campaign-preview-title {
+  margin-bottom: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #555;
+}
+
+.whatsapp-preview {
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 9px;
+
+  background: #e8f5e9;
+
+  border: 1px solid #d9e9da;
+}
+
+.preview-body {
+  padding: 14px 14px 12px;
+  color: #25354a;
+}
+
+.preview-body h3 {
+  margin: 0 0 10px;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  color: #172d45;
+}
+
+.preview-body p {
+  margin: 0 0 13px;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.preview-body p:last-of-type {
+  margin-bottom: 10px;
+}
+
+.preview-body strong {
+  font-weight: 600;
+}
+
+.preview-brand {
+  font-size: 12px;
+  color: #687581;
+}
+
+.preview-button {
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f7f7f7;
+
+  border-top: 1px solid #ddd;
+
+  color: #172d45;
+
+  font-size: 16px;
+}
+
+
+/* =========================
+   DISCOUNT
+========================= */
+
+.discount-group {
+  margin-bottom: 17px;
+}
+
+.discount-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #444;
+}
+
+.discount-input-wrapper {
+  display: flex;
+  align-items: center;
+
+  height: 42px;
+
+  border: 1px solid #ddd;
+  border-radius: 7px;
+
+  overflow: hidden;
+
+  background: #fff;
+}
+
+.discount-input-wrapper:focus-within {
+  border-color: #2b7735;
+}
+
+.discount-input-wrapper input {
+  flex: 1;
+
+  width: 100%;
+
+  height: 100%;
+
+  padding: 0 12px;
+
+  border: none;
+  outline: none;
+
+  font-size: 14px;
+
+  color: #333;
+}
+
+.discount-input-wrapper span {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 13px;
+
+  background: #f3f7f3;
+
+  border-left: 1px solid #ddd;
+
+  color: #2b7735;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.discount-group small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #888;
+
+  font-size: 11px;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.campaign-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 15px 0;
+
+  padding: 10px 12px;
+
+  border-radius: 7px;
+
+  background: #f7faf7;
+
+  color: #666;
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   SEND BUTTON
+========================= */
+
+.send-btn {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 10px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #2b7735;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: #18451e;
+}
+
+.send-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   LOADING SPINNER
+========================= */
+
+.spinner {
+  width: 15px;
+  height: 15px;
+
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  animation: promo-spin 0.7s linear infinite;
+}
+
+@keyframes promo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================
+   WARNING
+========================= */
+
+.campaign-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin-top: 20px;
+
+  padding: 14px 16px;
+
+  border-radius: 8px;
+
+  background: #fff9e8;
+
+  border: 1px solid #f3e4b7;
+
+  color: #765e20;
+}
+
+.campaign-warning > span {
+  font-size: 17px;
+}
+
+.campaign-warning strong {
+  font-size: 13px;
+}
+
+.campaign-warning p {
+  margin: 3px 0 0;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .campaign-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .promotional-page {
+    padding: 15px;
+  }
+
+  .promo-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .promo-header h1 {
+    font-size: 22px;
+  }
+
+  .campaign-card {
+    padding: 16px;
+  }
+}

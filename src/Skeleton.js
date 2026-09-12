@@ -47,6 +47,8 @@ const Skeleton = () => {
         <div><Link to="/orders">Orders</Link></div>
         {/* <div><Link to="/cartpage">Cart Page</Link></div> */}
         <div><Link to="/shipping">Shipping Page</Link></div>
+        
+        <div><Link to="/promotional">Promotional Messages</Link></div>
 
         <div><Link to="/contactus">Contact Us</Link></div>
 
