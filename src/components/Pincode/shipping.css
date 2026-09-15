@@ -211,3 +211,27 @@
     font-weight: 600;
     color: #2b7735;
 }
+
+.option-card {
+    transition: all 0.2s ease;
+}
+
+.option-card.disabled {
+    opacity: 0.45;
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    cursor: not-allowed;
+}
+
+.option-card.disabled label {
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.option-card.disabled input[type="checkbox"] {
+    cursor: not-allowed;
+}
+
+.option-card.disabled input:not([type="checkbox"]) {
+    cursor: not-allowed;
+}

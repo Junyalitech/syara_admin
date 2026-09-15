@@ -193,6 +193,17 @@ const ShippingPage = () => {
         setEditing(true);
     };
 
+    const isFreeDisabled = form.porter_available || form.courier_road_available || form.courier_air_available;
+
+    const isPorterDisabled =
+        form.free_delivery_available || form.courier_air_available;
+
+    const isRoadDisabled =
+        form.free_delivery_available;
+
+    const isAirDisabled =
+        form.free_delivery_available || form.porter_available;
+
     return (
         <div className="shipping-page">
 
@@ -219,11 +230,12 @@ const ShippingPage = () => {
                 <div className="options-grid">
 
                     {/* FREE */}
-                    <div className="option-card">
+                    <div className={`option-card ${isFreeDisabled ? "disabled" : ""}`}>
                         <label >
                             <input
                                 type="checkbox"
                                 checked={form.free_delivery_available}
+                                disabled={isFreeDisabled}
                                 onChange={() => handleToggle("free_delivery_available")}
                             />
                             Free Delivery
@@ -243,12 +255,12 @@ const ShippingPage = () => {
                     </div>
 
                     {/* PORTER */}
-                    <div className="option-card">
+                    <div className={`option-card ${isPorterDisabled ? "disabled" : ""}`}>
                         <label>
                             <input
                                 type="checkbox"
                                 checked={form.porter_available}
-                                disabled={form.free_delivery_available || form.courier_air_available}
+                                disabled={isPorterDisabled}
                                 onChange={() => handleToggle("porter_available")}
                             />
                             Porter
@@ -278,12 +290,12 @@ const ShippingPage = () => {
                     </div>
 
                     {/* ROAD */}
-                    <div className="option-card">
+                    <div className={`option-card ${isRoadDisabled ? "disabled" : ""}`}>
                         <label>
                             <input
                                 type="checkbox"
                                 checked={form.courier_road_available}
-                                disabled={form.free_delivery_available}
+                                disabled={isRoadDisabled}
                                 onChange={() => handleToggle("courier_road_available")}
                             />
                             Courier Road
@@ -313,12 +325,12 @@ const ShippingPage = () => {
                     </div>
 
                     {/* AIR */}
-                    <div className="option-card">
+                    <div className={`option-card ${isAirDisabled ? "disabled" : ""}`}>
                         <label>
                             <input
                                 type="checkbox"
                                 checked={form.courier_air_available}
-                                disabled={form.free_delivery_available}
+                                disabled={isAirDisabled}
                                 onChange={() => handleToggle("courier_air_available")}
                             />
                             Courier Air
