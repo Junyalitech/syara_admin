@@ -7,7 +7,8 @@ import FAQ from './Faq/Faq';
 
 
 const OurVissionForm = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [formData, setFormData] = useState({
     image: null,
     text1: '',
@@ -23,9 +24,18 @@ const OurVissionForm = () => {
   });
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    // Allow maximum 20 words
+    const words = value.trim().split(/\s+/).filter(Boolean);
+
+    if (words.length > 20) {
+      return;
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   };
 
@@ -39,7 +49,21 @@ const OurVissionForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.image) {
+      alert('Please upload an image before submitting.');
+      return;
+    }
+
+    const confirmed = window.confirm(
+      'Your existing data will be replaced with the new data. Do you want to continue?'
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const missionData = new FormData();
+
     missionData.append('image', formData.image);
     missionData.append('text1', formData.text1);
     missionData.append('text2', formData.text2);
@@ -53,19 +77,28 @@ const OurVissionForm = () => {
     missionData.append('text10', formData.text10);
 
     try {
-      setLoading(true)
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/our-mission`, missionData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      setLoading(true);
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/our-mission`,
+        missionData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      });
+      );
+
       console.log('OurMission data submitted successfully:', response.data);
+
+      // Immediately refresh OurVision table
+      setRefreshTrigger(prev => prev + 1);
+
       alert('OurMission data added successfully!');
     } catch (error) {
       console.error('Error submitting OurMission data:', error);
-    }
-    finally {
-      setLoading(false)
+    } finally {
+      setLoading(false);
       setFormData({
         image: null,
         text1: '',
@@ -77,8 +110,8 @@ const OurVissionForm = () => {
         text7: '',
         text8: '',
         text9: '',
-        text10: '',
-      })
+        text10: ''
+      });
     }
   };
 
@@ -150,14 +183,21 @@ const OurVissionForm = () => {
 
           <div style={formGroupStyle}>
             <label style={labelStyle}>Text 1:</label>
+
             <input
               type="text"
               name="text1"
               value={formData.text1}
               onChange={handleInputChange}
-              placeholder="Enter text for section 1"
+              placeholder="Enter text (maximum 20 words)"
               style={inputStyle}
             />
+
+            <small style={{ color: '#666' }}>
+              {formData.text1.trim()
+                ? formData.text1.trim().split(/\s+/).length
+                : 0}/20 words
+            </small>
           </div>
 
           <div style={formGroupStyle}>
@@ -167,9 +207,15 @@ const OurVissionForm = () => {
               name="text2"
               value={formData.text2}
               onChange={handleInputChange}
-              placeholder="Enter text for section 2"
+              placeholder="Enter text (maximum 20 words)"
               style={inputStyle}
             />
+
+            <small style={{ color: '#666' }}>
+              {formData.text1.trim()
+                ? formData.text1.trim().split(/\s+/).length
+                : 0}/20 words
+            </small>
           </div>
 
           {/* Repeat the same pattern for all text inputs */}
@@ -181,9 +227,15 @@ const OurVissionForm = () => {
               name="text3"
               value={formData.text3}
               onChange={handleInputChange}
-              placeholder="Enter text for section 3"
+              placeholder="Enter text (maximum 20 words)"
               style={inputStyle}
             />
+
+            <small style={{ color: '#666' }}>
+              {formData.text1.trim()
+                ? formData.text1.trim().split(/\s+/).length
+                : 0}/20 words
+            </small>
           </div>
           <div style={formGroupStyle}>
             <label style={labelStyle}>Text 4:</label>
@@ -192,9 +244,15 @@ const OurVissionForm = () => {
               name="text4"
               value={formData.text4}
               onChange={handleInputChange}
-              placeholder="Enter text for section 4"
+              placeholder="Enter text (maximum 20 words)"
               style={inputStyle}
             />
+
+            <small style={{ color: '#666' }}>
+              {formData.text1.trim()
+                ? formData.text1.trim().split(/\s+/).length
+                : 0}/20 words
+            </small>
           </div>
           <div style={formGroupStyle}>
             <label style={labelStyle}>Text 5:</label>
@@ -203,9 +261,16 @@ const OurVissionForm = () => {
               name="text5"
               value={formData.text5}
               onChange={handleInputChange}
-              placeholder="Enter text for section 5"
+
+              placeholder="Enter text (maximum 20 words)"
               style={inputStyle}
             />
+
+            <small style={{ color: '#666' }}>
+              {formData.text1.trim()
+                ? formData.text1.trim().split(/\s+/).length
+                : 0}/20 words
+            </small>
           </div>
           {/* <div style={formGroupStyle}>
             <label style={labelStyle}>Text 6:</label>
@@ -274,7 +339,7 @@ const OurVissionForm = () => {
           </button>
         </form>
         {/**Vision ko show karane k leye code likha gya h */}
-        <OurVision />
+        <OurVision refreshTrigger={refreshTrigger} />
       </div>
       <div>
 

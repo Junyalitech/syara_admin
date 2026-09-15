@@ -38,3 +38,54 @@
   font-size: 14px;
   color: #555;
 }
+
+.faq-skeleton-card {
+  min-height: 130px;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #eeeeee 25%,
+    #dddddd 50%,
+    #eeeeee 75%
+  );
+
+  background-size: 200% 100%;
+
+  animation: skeleton-loading 1.4s infinite;
+
+  border-radius: 6px;
+}
+
+.skeleton-question {
+  width: 55%;
+  height: 18px;
+  margin-bottom: 18px;
+}
+
+.skeleton-answer {
+  width: 90%;
+  height: 14px;
+  margin-bottom: 8px;
+}
+
+.skeleton-answer.short {
+  width: 70%;
+  margin-bottom: 18px;
+}
+
+.skeleton-button {
+  width: 70px;
+  height: 35px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

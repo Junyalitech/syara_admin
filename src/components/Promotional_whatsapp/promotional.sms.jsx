@@ -9,35 +9,20 @@ const PromotionalMessages = () => {
     text: "",
   });
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const sendCampaign = async (type) => {
     setMessage({ type: "", text: "" });
 
-    // Validate special sale
-    if (type === "special-sale") {
-      if (!discount || Number(discount) <= 0) {
-        setMessage({
-          type: "error",
-          text: "Please enter a valid discount percentage.",
-        });
-        return;
-      }
-
-      if (Number(discount) > 100) {
-        setMessage({
-          type: "error",
-          text: "Discount cannot be more than 100%.",
-        });
-        return;
-      }
-    }
+    // validation...
 
     setLoading(type);
 
     try {
       const endpoint =
         type === "new-arrivals"
-          ? "/whatsapp/new-arrivals"
-          : "/whatsapp/special-sale";
+          ? `${API_URL}/whatsapp/new-arrivals`
+          : `${API_URL}/whatsapp/special-sale`;
 
       const body =
         type === "special-sale"
@@ -52,7 +37,16 @@ const PromotionalMessages = () => {
         body: JSON.stringify(body),
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type") || "";
+
+      let data;
+
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        data = { message: text };
+      }
 
       if (!response.ok) {
         throw new Error(
@@ -62,18 +56,9 @@ const PromotionalMessages = () => {
 
       setMessage({
         type: "success",
-        text:
-          data?.message ||
-          `${
-            type === "new-arrivals"
-              ? "New arrivals"
-              : "Special sale"
-          } campaign sent successfully!`,
+        text: data?.message || "Campaign sent successfully!",
       });
 
-      if (type === "special-sale") {
-        setDiscount("");
-      }
     } catch (error) {
       setMessage({
         type: "error",
@@ -106,11 +91,10 @@ const PromotionalMessages = () => {
       {/* GLOBAL RESPONSE */}
       {message.text && (
         <div
-          className={`promo-alert ${
-            message.type === "success"
-              ? "alert-success"
-              : "alert-error"
-          }`}
+          className={`promo-alert ${message.type === "success"
+            ? "alert-success"
+            : "alert-error"
+            }`}
         >
           <span className="alert-icon">
             {message.type === "success" ? "✓" : "!"}

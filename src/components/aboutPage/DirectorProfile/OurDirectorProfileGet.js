@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const OurDirectorProfile = () => {
+const OurDirectorProfile = ({ refreshTrigger }) => {
   const [data, setData] = useState([]);
 
   // Fetch data from API
@@ -22,7 +22,7 @@ const OurDirectorProfile = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [refreshTrigger]);
 
   // Styles for table
   const tableStyle = {

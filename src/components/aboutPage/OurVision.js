@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const MissionTable = () => {
+const MissionTable = ({ refreshTrigger }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -9,25 +9,28 @@ const MissionTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/our-mission/api`); // Replace with your GET API endpoint
-        console.log(response.data); // Log the response to see the structure
 
-        // Extract the 'data' array from the response object
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/our-mission/api`
+        );
+
         if (response.data && Array.isArray(response.data.data)) {
-          setData(response.data.data); // Set the array to the state
+          setData(response.data.data);
         } else {
           console.error('Unexpected data format:', response.data);
         }
+
       } catch (error) {
         console.error('Error fetching data:', error);
-      }
-      finally{
-        setLoading(false)
+
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchData();
-  }, []);
+  }, [refreshTrigger]);
 
   // Styles for table
   const tableStyle = {
@@ -58,7 +61,7 @@ const MissionTable = () => {
 
   return (
     <div>
-      <h2 style={{ textAlign: 'center', marginBottom: '20px', marginTop:'24px' }}>Our Vision Data</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px', marginTop: '24px' }}>Our Vision Data</h2>
       <table style={tableStyle}>
         <thead>
           <tr>
@@ -76,26 +79,26 @@ const MissionTable = () => {
           </tr>
         </thead>
         <tbody>
-          { loading ? (
+          {loading ? (
             <tr> <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>Loading...</td></tr>
           ) :
-          data.map((item, index) => (
-            <tr key={index}>
-              <td style={tdStyle}>  
-                <img src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
-              </td>
-              <td style={tdStyle}>{item.text1}</td>
-              <td style={tdStyle}>{item.text2}</td>
-              <td style={tdStyle}>{item.text3}</td>
-              <td style={tdStyle}>{item.text4}</td>
-              <td style={tdStyle}>{item.text5}</td>
-              {/* <td style={tdStyle}>{item.text6}</td>
+            data.map((item, index) => (
+              <tr key={index}>
+                <td style={tdStyle}>
+                  <img src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`} alt="Mission" style={imageStyle} />
+                </td>
+                <td style={tdStyle}>{item.text1 || "-"}</td>
+                <td style={tdStyle}>{item.text2 || "-"}</td>
+                <td style={tdStyle}>{item.text3 || "-"}</td>
+                <td style={tdStyle}>{item.text4 || "-"}</td>
+                <td style={tdStyle}>{item.text5 || "-"}</td>
+                {/* <td style={tdStyle}>{item.text6}</td>
               <td style={tdStyle}>{item.text7}</td>
               <td style={tdStyle}>{item.text8}</td>
               <td style={tdStyle}>{item.text9}</td>
               <td style={tdStyle}>{item.text10}</td> */}
-            </tr>
-          ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

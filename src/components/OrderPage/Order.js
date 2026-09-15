@@ -9,6 +9,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [updatingId, setUpdatingId] = useState(null);
+  const [selectedOrderItems, setSelectedOrderItems] = useState(null);
   // Fetch all orders (Admin)
   const fetchOrders = async (pageNumber = 1, searchQuery = "") => {
     try {
@@ -88,7 +89,7 @@ const Orders = () => {
             <tr>
               <th>Order ID</th>
               <th>User</th>
-              <th>Items</th>
+              {/* <th>Items</th> */}
               <th>Status</th>
               <th>Total</th>
               <th>Payment</th>
@@ -116,13 +117,13 @@ const Orders = () => {
                 <td>{order.User.name} <br />
                   {order.User.phone}
                 </td>
-                <td>{order.OrderItems.map((item) => (
+                {/* <td>{order.OrderItems.map((item) => (
                   <div key={item.itemId} style={{ marginBottom: '12px' }}>
                     {item?.Product?.productName}  ({item.quantity})
                     Package : {item.package} <br />
                     Price: ₹{item.package == '1Kg' ? item.Product.packeoption1kgrate : item.Product.packeoption500gmrate}
                   </div>
-                ))}</td>
+                ))}</td> */}
                 <td>
                   <span
                     className={
@@ -148,7 +149,15 @@ const Orders = () => {
                     ? formatDate(order.deliveryTime)
                     : `${formatDate(order.deliveryTime)} (expected)`}
                 </td>
-                <td>
+                <td style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+
+                  <button
+                    className="view-items-btn"
+                    onClick={() => setSelectedOrderItems(order.OrderItems)}
+                  >
+                    View Items
+                  </button>
+
                   <button
                     className="deliver-btn"
                     disabled={order.orderStatus === "delivered" || updatingId === order.orderId}
@@ -160,6 +169,8 @@ const Orders = () => {
                         ? "Delivered"
                         : "Mark Delivered"}
                   </button>
+
+
                 </td>
               </tr>
             ))}
@@ -188,6 +199,77 @@ const Orders = () => {
 
 
       </div>
+
+      {selectedOrderItems && (
+        <div className="items-modal-overlay">
+          <div className="items-modal">
+
+            <div className="items-modal-header">
+              <h3>Order Items</h3>
+
+              <button
+                className="items-modal-close"
+                onClick={() => setSelectedOrderItems(null)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="items-modal-body">
+              {selectedOrderItems.length === 0 ? (
+                <p className="no-items">No items found.</p>
+              ) : (
+                selectedOrderItems.map((item) => {
+                  const price =
+                    item.package === "1Kg"
+                      ? item?.Product?.packeoption1kgrate
+                      : item?.Product?.packeoption500gmrate;
+
+                  return (
+                    <div className="order-item-card" key={item.itemId}>
+
+                      <div className="order-item-info">
+                        <h4>
+                          {item?.Product?.productName || "Product"}
+                        </h4>
+
+                        <div className="order-item-details">
+                          <span>
+                            <strong>Quantity:</strong> {item.quantity}
+                          </span>
+
+                          <span>
+                            <strong>Package:</strong> {item.package}
+                          </span>
+
+                          <span>
+                            <strong>Price:</strong> ₹{price}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="order-item-total">
+                        ₹{price * item.quantity}
+                      </div>
+
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            <div className="items-modal-footer">
+              <button
+                className="modal-close-btn"
+                onClick={() => setSelectedOrderItems(null)}
+              >
+                Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 };

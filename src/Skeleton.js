@@ -36,7 +36,7 @@ const Skeleton = () => {
         </div>
         {showProductDetails && (
           <div className='navlinks-container-subcontainer navlinks-container-ourproducts'>
-            <div className='navlinks-container-ourproduct'><Link to="/ourproduct">Category</Link></div>
+            {/* <div className='navlinks-container-ourproduct'><Link to="/ourproduct">Category</Link></div> */}
 
             <div className='navlinks-container-ourproduct'><Link to="/addproduct">Add Products</Link></div>
             <div className='navlinks-container-ourproduct'><Link to="showallproducts">Show All Products</Link></div>

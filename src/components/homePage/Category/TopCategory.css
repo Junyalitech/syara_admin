@@ -242,3 +242,946 @@
     height: 60px;
   }
 }
+
+/* =========================================
+   CATEGORY IMAGE UPLOAD
+========================================= */
+
+.category-image-upload {
+  width: 100%;
+}
+
+
+/* =========================================
+   UPLOAD BOX
+========================================= */
+
+.category-upload-box {
+  width: 100%;
+  min-height: 170px;
+  box-sizing: border-box;
+
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.category-upload-box:hover {
+  border-color: #318134;
+  background: #f0fdf4;
+}
+
+.category-upload-box input {
+  display: none;
+}
+
+
+/* Camera icon */
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e8f5e9;
+  border-radius: 50%;
+
+  font-size: 23px;
+
+  margin-bottom: 10px;
+}
+
+
+/* Main text */
+
+.upload-main-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+}
+
+
+/* Sub text */
+
+.upload-sub-text {
+  margin-top: 5px;
+
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.category-preview-box {
+  width: 100%;
+  padding: 15px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+/* Image wrapper */
+
+.category-preview-image-wrapper {
+  position: relative;
+
+  width: 110px;
+  height: 110px;
+
+  flex-shrink: 0;
+}
+
+
+/* Preview image */
+
+.category-preview-image {
+  width: 110px;
+  height: 110px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  border: 1px solid #dbe3ea;
+
+  display: block;
+}
+
+
+/* =========================================
+   REMOVE BUTTON
+========================================= */
+
+.remove-image-button {
+  position: absolute;
+
+  top: -8px;
+  right: -8px;
+
+  width: 26px;
+  height: 26px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: white;
+
+  font-size: 20px;
+  line-height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  transition: 0.2s ease;
+}
+
+.remove-image-button:hover {
+  background: #dc2626;
+  transform: scale(1.08);
+}
+
+
+/* =========================================
+   PREVIEW INFO
+========================================= */
+
+.category-preview-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.preview-title {
+  max-width: 250px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #334155;
+}
+
+
+/* =========================================
+   CHANGE IMAGE BUTTON
+========================================= */
+
+.change-image-button {
+  width: fit-content;
+
+  padding: 7px 12px;
+
+  border-radius: 8px;
+
+  background: #318134;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.change-image-button:hover {
+  background: #256b29;
+}
+
+.change-image-button input {
+  display: none;
+}
+
+/* =========================================
+   CATEGORY IMAGE UPLOAD
+========================================= */
+
+.category-image-upload {
+  width: 100%;
+}
+
+
+/* =========================================
+   UPLOAD BOX
+========================================= */
+
+.category-upload-box {
+  width: 100%;
+  min-height: 170px;
+  box-sizing: border-box;
+
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.category-upload-box:hover {
+  border-color: #318134;
+  background: #f0fdf4;
+}
+
+.category-upload-box input {
+  display: none;
+}
+
+
+/* Camera icon */
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e8f5e9;
+  border-radius: 50%;
+
+  font-size: 23px;
+
+  margin-bottom: 10px;
+}
+
+
+/* Main text */
+
+.upload-main-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+}
+
+
+/* Sub text */
+
+.upload-sub-text {
+  margin-top: 5px;
+
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+.category-preview-box {
+  width: 100%;
+  padding: 15px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+
+/* Image wrapper */
+
+.category-preview-image-wrapper {
+  position: relative;
+
+  width: 110px;
+  height: 110px;
+
+  flex-shrink: 0;
+}
+
+
+/* Preview image */
+
+.category-preview-image {
+  width: 110px;
+  height: 110px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  border: 1px solid #dbe3ea;
+
+  display: block;
+}
+
+
+/* =========================================
+   REMOVE BUTTON
+========================================= */
+
+.remove-image-button {
+  position: absolute;
+
+  top: -8px;
+  right: -8px;
+
+  width: 26px;
+  height: 26px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: white;
+
+  font-size: 20px;
+  line-height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  transition: 0.2s ease;
+}
+
+.remove-image-button:hover {
+  background: #dc2626;
+  transform: scale(1.08);
+}
+
+
+/* =========================================
+   PREVIEW INFO
+========================================= */
+
+.category-preview-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.preview-title {
+  max-width: 250px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #334155;
+}
+
+
+/* =========================================
+   CHANGE IMAGE BUTTON
+========================================= */
+
+.change-image-button {
+  width: fit-content;
+
+  padding: 7px 12px;
+
+  border-radius: 8px;
+
+  background: #318134;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.change-image-button:hover {
+  background: #256b29;
+}
+
+.change-image-button input {
+  display: none;
+}
+
+/* =========================================
+   IMAGE PREVIEW BOX
+========================================= */
+
+.category-preview-box {
+  width: 100%;
+  min-height: 150px;
+  padding: 16px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #dbe3ea;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+
+/* =========================================
+   IMAGE WRAPPER
+========================================= */
+
+.category-preview-image-wrapper {
+  position: relative;
+
+  width: 125px;
+  height: 125px;
+  background-repeat: cover;
+
+  /* flex-shrink: 0; */
+}
+
+
+/* =========================================
+   PREVIEW IMAGE
+========================================= */
+
+.category-preview-image {
+  width: 125px;
+  height: 125px;
+
+  display: block;
+  
+  object-fit: cover;
+
+  border-radius: 12px;
+
+  border: 1px solid #d5dce3;
+  
+  overflow: hidden;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   CROSS / REMOVE BUTTON
+========================================= */
+
+.remove-image-button {
+  position: absolute;
+
+  top: -8px;
+  right: -8px;
+
+  width: 28px;
+  height: 28px;
+
+  padding: 0;
+  margin: 0;
+  /* z-index: 1000; */
+
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 10;
+
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+
+  transition: all 0.2s ease;
+}
+
+.remove-image-button:hover {
+  background: #dc2626;
+  transform: scale(1.08);
+}
+
+.remove-image-button:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================
+   PREVIEW INFORMATION
+========================================= */
+
+.category-preview-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+
+.preview-title {
+  max-width: 250px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #334155;
+}
+
+
+/* =========================================
+   CHANGE IMAGE BUTTON
+========================================= */
+
+.change-image-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+
+  padding: 9px 15px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #318134;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.change-image-button:hover {
+  background: #256b29;
+  transform: translateY(-1px);
+}
+
+.change-image-button input {
+  display: none;
+}
+
+/* =========================================
+   CATEGORY ACTIONS
+========================================= */
+
+.category-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.edit-button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 70px;
+
+  padding: 9px 16px;
+
+  border: none !important;
+  outline: none;
+
+  border-radius: 8px;
+
+  background: #316481 !important;
+  color: #ffffff !important;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 5px rgba(49, 129, 52, 0.2);
+
+  transition: all 0.2s ease;
+}
+
+.edit-button:hover {
+  background: #1b4d6a !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 8px rgba(49, 129, 52, 0.25);
+}
+
+.edit-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.delete-button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 70px;
+
+  padding: 9px 16px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 8px;
+
+  background: #ef4444;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
+
+  transition: all 0.2s ease;
+}
+
+.delete-button:hover {
+  background: #dc2626;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.25);
+}
+
+.delete-button:active {
+  transform: translateY(0);
+}
+
+.delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================
+   CATEGORY IMAGE PREVIEW
+========================================= */
+
+.category-preview-box {
+  width: 100%;
+  min-height: 145px;
+  padding: 18px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #dbe3ea;
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  overflow: visible;
+}
+
+
+/* Image + cross wrapper */
+.category-preview-image-wrapper {
+  position: relative;
+
+  width: 140px;
+  height: 120px;
+
+  flex: 0 0 140px;
+
+  overflow: visible;
+}
+
+
+/* Image */
+.category-preview-image {
+  width: 140px;
+  height: 120px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+  border: 1px solid #d5dce3;
+
+  /* IMPORTANT */
+  overflow: hidden;
+}
+
+
+/* =========================================
+   CROSS BUTTON
+========================================= */
+
+.remove-image-button {
+  position: absolute;
+
+  /* Put it clearly outside image */
+  top: -10px;
+  right: -10px;
+
+  width: 27px;
+  height: 27px;
+
+  padding: 0;
+  margin: 0;
+
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+
+  background: #ef4444;
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+
+  z-index: 999;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.remove-image-button:hover {
+  background: #dc2626;
+  transform: scale(1.08);
+}
+
+
+/* =========================================
+   PREVIEW INFO
+========================================= */
+
+.category-preview-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+.preview-title {
+  max-width: 250px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  color: #1e293b;
+}
+
+
+/* =========================================
+   CHANGE IMAGE BUTTON
+========================================= */
+
+.change-image-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 17px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #318134;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.change-image-button:hover {
+  background: #256b29;
+  transform: translateY(-1px);
+}
+
+.change-image-button input {
+  display: none;
+}
+
+.category-preview-image-wrapper,
+.category-preview-image {
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-preview-image-wrapper::-webkit-scrollbar,
+.category-preview-image::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.category-preview-image-wrapper {
+  position: relative;
+  width: 140px;
+  height: 120px;
+  flex: 0 0 140px;
+  overflow: visible;
+}
+
+.category-preview-image {
+  width: 140px;
+  height: 120px;
+  display: block;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d5dce3;
+}

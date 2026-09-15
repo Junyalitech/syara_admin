@@ -1,32 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import OurDirectorProfile from './OurDirectorProfileGet'
-
+import OurDirectorProfile from './OurDirectorProfileGet';
 
 const OurDirectorProfileForm = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
   const [formData, setFormData] = useState({
     image: null,
     text: '',
   });
 
-
-  const MAX_WORDS = 25;
+  const MAX_WORDS = 500;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Split into words
-    const words = value.trim().split(/\s+/);
+    const words = value.trim().split(/\s+/).filter(Boolean);
 
-    // If within limit
     if (words.length <= MAX_WORDS) {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
     } else {
-      // Trim extra words automatically
       const limitedText = words.slice(0, MAX_WORDS).join(" ");
 
       setFormData((prev) => ({
@@ -37,135 +34,231 @@ const OurDirectorProfileForm = () => {
   };
 
   const handleImageChange = (e) => {
-    setFormData({
-      ...formData,
-      image: e.target.files[0]
-    });
+    setFormData((prev) => ({
+      ...prev,
+      image: e.target.files[0],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Image validation
+    if (!formData.image) {
+      alert("Please upload an image before submitting.");
+      return;
+    }
+
+    // Confirmation before replacing existing data
+    const confirmed = window.confirm(
+      "Your existing data will be replaced with the new data. Do you want to continue?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     const missionData = new FormData();
-    missionData.append('image', formData.image);
-    missionData.append('text', formData.text);
+
+    missionData.append("image", formData.image);
+    missionData.append("text", formData.text);
 
     try {
-      setLoading(true)
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/director-profile`, missionData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      setLoading(true);
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/director-profile`,
+        missionData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
-      console.log('OurMission data submitted successfully:', response.data);
-      alert('OurMission data added successfully!');
+      );
+
+      console.log(
+        "Director Profile updated successfully:",
+        response.data
+      );
+
+      // Immediately refresh the Director Profile table
+      setRefreshTrigger((prev) => prev + 1);
+
+      alert("Director Profile updated successfully!");
+
     } catch (error) {
-      console.error('Error submitting OurMission data:', error);
-    }
-    finally {
+      console.error("Error submitting Director Profile:", error);
+
+      alert("Failed to update Director Profile.");
+
+    } finally {
+      setLoading(false);
       setFormData({
         image: null,
         text: '',
-      })
-      setLoading(false)
+      });
     }
   };
 
   const containerStyle = {
-    width: '100%',
-    maxWidth: '900px',
-    margin: '50px auto',
-    backgroundColor: '#f9f9f9',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    width: "100%",
+    maxWidth: "900px",
+    margin: "40px auto",
+    backgroundColor: "#fff",
+    padding: "30px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 15px rgba(0, 0, 0, 0.08)",
+    boxSizing: "border-box",
   };
 
   const headingStyle = {
-    textAlign: 'center',
-    color: '#333',
-    marginBottom: '20px',
-    fontFamily: 'Arial, sans-serif',
+    textAlign: "center",
+    color: "#222",
+    marginBottom: "30px",
+    fontFamily: "Arial, sans-serif",
+    fontSize: "26px",
   };
 
   const formStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '50px', // Space between form elements
-    alignItems: 'center',
-    flexWrap: 'wrap', // Allows wrapping if necessary
+    display: "flex",
+    flexDirection: "column",
+    gap: "22px",
   };
 
   const formGroupStyle = {
-    flex: '1',
-    minWidth: '200px', // Minimum width for each element
+    width: "100%",
+  };
+
+  const labelStyle = {
+    display: "block",
+    marginBottom: "8px",
+    fontWeight: "600",
+    fontSize: "15px",
+    color: "#333",
   };
 
   const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    fontSize: '16px',
-    height: '48px', // Ensure consistent height
+    width: "100%",
+    padding: "12px 14px",
+    border: "1px solid #d1d5db",
+    borderRadius: "7px",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    outline: "none",
+    backgroundColor: "#fff",
+  };
+
+  const textareaStyle = {
+    width: "100%",
+    minHeight: "250px",
+    padding: "14px",
+    border: "1px solid #d1d5db",
+    borderRadius: "7px",
+    boxSizing: "border-box",
+    fontSize: "15px",
+    lineHeight: "1.6",
+    resize: "vertical",
+    outline: "none",
+    fontFamily: "Arial, sans-serif",
   };
 
   const buttonStyle = {
-    backgroundColor: '#28a745',
-    color: 'white',
-    padding: '10px',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-    height: '48px', // Ensure consistent height
-    minWidth: '120px',
+    width: "100%",
+    backgroundColor: "#28a745",
+    color: "#fff",
+    padding: "13px",
+    border: "none",
+    borderRadius: "7px",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: loading ? "not-allowed" : "pointer",
+    opacity: loading ? 0.7 : 1,
   };
 
-  const buttonHoverStyle = {
-    backgroundColor: '#218838',
+  const counterStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "6px",
+    fontSize: "12px",
+    color: "#777",
   };
 
   return (
     <div style={containerStyle}>
-      <h2 style={headingStyle}>Director Profile</h2>
-      <form onSubmit={handleSubmit} style={formStyle}>
-        <div style={formGroupStyle}>
-          <input type="file" name="image" onChange={handleImageChange} style={inputStyle} />
-        </div>
 
+      <h2 style={headingStyle}>
+        Director Profile
+      </h2>
+
+      <form onSubmit={handleSubmit} style={formStyle}>
+
+        {/* Image */}
         <div style={formGroupStyle}>
+          <label style={labelStyle}>
+            Director Image
+          </label>
+
           <input
-            type="text"
-            name="text"
-            value={formData.text}
-            onChange={handleInputChange}
-            placeholder="Description"
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
             style={inputStyle}
           />
 
-          <p style={{ fontSize: "12px", color: "gray" }}>
-            {formData.text.trim() === ""
-              ? `0/${MAX_WORDS} words`
-              : `${formData.text.trim().split(/\s+/).length}/${MAX_WORDS} words`}
-          </p>
+          <small style={{ color: "#777", display: "block", marginTop: "6px" }}>
+            Please upload a suitable profile image.
+          </small>
         </div>
 
+
+        {/* Description */}
         <div style={formGroupStyle}>
+
+          <label style={labelStyle}>
+            Director's Message
+          </label>
+
+          <textarea
+            name="text"
+            value={formData.text}
+            onChange={handleInputChange}
+            placeholder="Write the Director's message here..."
+            style={textareaStyle}
+          />
+
+          <div style={counterStyle}>
+            <span>
+              Maximum {MAX_WORDS} words
+            </span>
+
+            <span>
+              {formData.text.trim() === ""
+                ? `0/${MAX_WORDS}`
+                : `${formData.text.trim().split(/\s+/).length}/${MAX_WORDS}`}
+            </span>
+          </div>
+
+        </div>
+
+
+        {/* Submit */}
+        <div style={formGroupStyle}>
+
           <button
             type="submit"
             disabled={loading}
             style={buttonStyle}
-            onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
-            onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? "Updating..." : "Update Director Profile"}
           </button>
+
         </div>
+
       </form>
-      <OurDirectorProfile />
+
+      <OurDirectorProfile refreshTrigger={refreshTrigger} />
+
     </div>
   );
 };

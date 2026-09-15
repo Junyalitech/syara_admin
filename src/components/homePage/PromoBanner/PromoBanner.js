@@ -123,16 +123,31 @@ const PromoBanner = () => {
             return;
         }
 
+        // Minimum 2 banners must always exist
+        if (images.length <= 2) {
+            alert(
+                'You cannot delete this banner. Minimum 2 promotion banners are required. Please add a new banner first, then delete this one.'
+            );
+            return;
+        }
+
         setDeleteLoading(user.id);
+
         try {
-            const response = await axios.delete(`${process.env.REACT_APP_API_URL}/deleteTwoBanner/${user.id}`);
+            const response = await axios.delete(
+                `${process.env.REACT_APP_API_URL}/deleteTwoBanner/${user.id}`
+            );
+
             console.log('Banner deleted successfully:', response.data);
             alert('Delete promotion banner is successfully');
-            setImages(prevImages => prevImages.filter(img => img.id !== user.id));
+
+            setImages(prevImages =>
+                prevImages.filter(img => img.id !== user.id)
+            );
+
         } catch (error) {
             console.error('Error deleting item:', error);
-        }
-        finally {
+        } finally {
             setDeleteLoading(null);
         }
     };
@@ -142,52 +157,103 @@ const PromoBanner = () => {
             <h1 className="heading">Promotion Banner</h1>
 
             {/* Upload Card */}
+            {/* Upload Card */}
             <div className="card upload-card">
                 <h2>Add Promotion Banner</h2>
 
-                <form onSubmit={handleSubmit} className="form-grid">
-                    {/* <input type="text" name="id" placeholder="ID" value={form.id} onChange={handleInputChange} /> */}
+                {!dataLoading && images.length >= 4 ? (
+                    <div className="slider-limit-message">
+                        <span>⚠️</span>
 
-                    <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleInputChange} />
+                        <div>
+                            <strong>Maximum banner limit reached</strong>
+                            <p>
+                                You can have a maximum of 4 promotion banners.
+                                Please delete an existing banner to add a new one.
+                            </p>
+                        </div>
+                    </div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="form-grid">
 
-                    <input type="text" name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleInputChange} />
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Title"
+                            value={form.title}
+                            onChange={handleInputChange}
+                        />
 
-                    <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange} />
+                        <textarea
+                            name="description"
+                            placeholder="Description"
+                            value={form.description}
+                            onChange={handleInputChange}
+                        />
 
-                    <select
-                        name="button"
-                        value={form.button}
-                        onChange={handleInputChange}
-                        required
-                    >
-                        <option value="">Select Category *</option>
+                        <select
+                            name="button"
+                            value={form.button}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="">Select Category *</option>
 
-                        {categories.map((cat) => (
-                            <option key={cat.id} value={cat.slug}>
-                                {cat.name}
-                            </option>
-                        ))}
-                    </select>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.slug}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                        </select>
 
-                    <label className="file-upload">
-                        <input type="file" onChange={handleImageChange} />
-                        {imageName ? imageName : "Choose Image"}
-                    </label>
+                        <label className="file-upload">
+                            <input type="file" onChange={handleImageChange} />
+                            {imageName ? imageName : "Choose Image"}
+                        </label>
 
-                    <button type="submit" className="btn-primary" disabled={loading}>
-                        {loading ? 'Uploading...' : 'Upload Promotion Banner'}
-                    </button>
-                </form>
+                        <button
+                            type="submit"
+                            className="btn-primary"
+                            disabled={loading || images.length >= 4}
+                        >
+                            {loading
+                                ? 'Uploading...'
+                                : 'Upload Promotion Banner'}
+                        </button>
+
+                    </form>
+                )}
             </div>
 
             {
                 dataLoading ? (
-                    <p style={{ textAlign: "center" }}>Loading images...</p>
-                ) : (
+                    <div className="gallery">
+                        {[1, 2, 3, 4].map((item) => (
+                            <div
+                                key={item}
+                                className="card image-card skeleton-card"
+                            >
+                                <div className="skeleton skeleton-image"></div>
 
+                                <div className="image-info">
+                                    <div className="skeleton skeleton-title"></div>
+
+                                    <div className="skeleton skeleton-text"></div>
+
+                                    <div className="skeleton skeleton-text short"></div>
+                                </div>
+
+                                <div className="skeleton skeleton-button"></div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
                     <div className="gallery">
                         {images.map((item) => (
-                            <div key={item.id} className="card image-card">
+                            <div
+                                key={item.id}
+                                className="card image-card"
+                            >
 
                                 {/* Image */}
                                 {item.image && (
@@ -202,14 +268,14 @@ const PromoBanner = () => {
                                     <h3>{item.title || "No Title"}</h3>
 
                                     {item.subtitle && (
-                                        <p className="subtitle">{item.subtitle}</p>
+                                        <p className="subtitle">
+                                            {item.subtitle}
+                                        </p>
                                     )}
 
-                                    <p>{item.description || "No Description"}</p>
-
-                                    {/* {item.button && (
-                <span className="button-tag">{item.button}</span>
-              )} */}
+                                    <p>
+                                        {item.description || "No Description"}
+                                    </p>
                                 </div>
 
                                 {/* Delete */}
@@ -220,12 +286,13 @@ const PromoBanner = () => {
                                 >
                                     {deleteLoading === item.id ? "Deleting..." : 'Delete'}
                                 </button>
+
                             </div>
                         ))}
                     </div>
                 )
             }
-            {/* Gallery */}
+
 
         </div>
     )

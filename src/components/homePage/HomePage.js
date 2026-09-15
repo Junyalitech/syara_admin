@@ -128,17 +128,32 @@ const HomePage = () => {
       return;
     }
 
-    setDeleteLoadingId(user.id); // start loading
+    // Minimum 1 slider must always exist
+    if (images.length <= 1) {
+      alert(
+        'You cannot delete the last slider. Please add a new slide first, then you can delete this slide.'
+      );
+      return;
+    }
+
+    setDeleteLoadingId(user.id);
 
     try {
-      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/upload/${user.id}`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/upload/${user.id}`
+      );
+
       console.log('Item deleted successfully:', response.data);
-      alert('Delete images of home slider is successfully');
-      setImages(prevImages => prevImages.filter(img => img.id !== user.id));
+      alert('Delete slide of home slider is successfully');
+
+      setImages(prevImages =>
+        prevImages.filter(img => img.id !== user.id)
+      );
+
     } catch (error) {
       console.error('Error deleting item:', error);
     } finally {
-      setDeleteLoadingId(null); // stop loading
+      setDeleteLoadingId(null);
     }
   };
 
@@ -147,55 +162,94 @@ const HomePage = () => {
       <h1 className="heading">Home Slider Manager</h1>
 
       {/* Upload Card */}
+      {/* Upload Card */}
       <div className="card upload-card">
+
         <h2>Add New Slider</h2>
 
-        <form onSubmit={handleSubmit} className="form-grid">
-          {/* <input type="text" name="id" placeholder="ID" value={form.id} onChange={handleInputChange} /> */}
+        {images.length >= 10 ? (
+          <div className="slider-limit-message">
+            <span>⚠️</span>
+            <div>
+              <strong>Maximum slider limit reached</strong>
+              <p>You can have a maximum of 10 sliders. Please delete an existing slider to add a new one.</p>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="form-grid">
 
-          <input type="text" name="title" placeholder="Title" value={form.title} onChange={handleInputChange} />
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={form.title}
+              onChange={handleInputChange}
+            />
 
-          <select
-            name="button"
-            value={form.button}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Select Category *</option>
+            <select
+              name="button"
+              value={form.button}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Category *</option>
 
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.slug}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.slug}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
 
-          {/* <input type="text" name="subtitle" placeholder="Subtitle" value={form.subtitle} onChange={handleInputChange} /> */}
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={form.description}
+              onChange={handleInputChange}
+            />
 
-          <textarea name="description" placeholder="Description" value={form.description} onChange={handleInputChange} />
+            <label className="file-upload">
+              <input type="file" onChange={handleImageChange} />
+              {imageName ? imageName : "Choose Image"}
+            </label>
 
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={loading || images.length >= 10}
+            >
+              {loading ? 'Uploading...' : 'Upload Slider'}
+            </button>
 
-          <label className="file-upload">
-            <input type="file" onChange={handleImageChange} />
-            {imageName ? imageName : "Choose Image"}
-          </label>
-
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Uploading...' : 'Upload Slider'}
-          </button>
-        </form>
+          </form>
+        )}
       </div>
 
 
       {
         dataLoading ? (
-          <p style={{ textAlign: "center" }}>Loading Slider Banners...</p>
+          <div className="gallery">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="card image-card skeleton-card">
+
+                <div className="skeleton skeleton-image"></div>
+
+                <div className="image-info">
+                  <div className="skeleton skeleton-title"></div>
+                  <div className="skeleton skeleton-text"></div>
+                  <div className="skeleton skeleton-text short"></div>
+                </div>
+
+                <div className="skeleton skeleton-button"></div>
+
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="gallery">
             {images.map((item) => (
               <div key={item.id} className="card image-card">
 
-                {/* Image */}
                 {item.image && (
                   <img
                     src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.image}`}
@@ -203,7 +257,6 @@ const HomePage = () => {
                   />
                 )}
 
-                {/* Data */}
                 <div className="image-info">
                   <h3>{item.title || "No Title"}</h3>
 
@@ -212,10 +265,8 @@ const HomePage = () => {
                   )}
 
                   <p>{item.description || "No Description"}</p>
-                  
                 </div>
 
-                {/* Delete */}
                 <button
                   className="btn-danger"
                   onClick={() => handleDeleteButtonClick(item)}
@@ -223,12 +274,13 @@ const HomePage = () => {
                 >
                   {deleteLoadingId === item.id ? "Deleting..." : "Delete"}
                 </button>
+
               </div>
             ))}
           </div>
         )
       }
-      
+
 
       <TopCategory />
       <PromoBanner />

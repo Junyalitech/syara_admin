@@ -92,6 +92,15 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const hasAtLeastOneImage = Object.values(images).some(
+      (image) => image
+    );
+
+    if (!hasAtLeastOneImage) {
+      alert("Please upload at least one product image.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append('productName', productName);
     formData.append('categoryId', category); // Use category ID here
@@ -102,8 +111,8 @@ const ProductForm = () => {
     formData.append('nickname3', nickname3);
     formData.append('packeoption1kg', packeoption1kg ? 'Available' : 'Not Available');
     formData.append('packeoption500gm', packeoption500gm ? 'Available' : 'Not Available');
-    formData.append('packeoption1kgrate', packeoption1kgrate);
-    formData.append('packeoption500gmrate', packeoption500gmrate);
+    formData.append('packeoption1kgrate', packeoption1kgrate || null);
+    formData.append('packeoption500gmrate', packeoption500gmrate || null);
     formData.append('video', video);
     formData.append('recipe', recipe);
     formData.append('productNamealsoyoumaylike', productNamealsoyoumaylike);
@@ -213,13 +222,13 @@ const ProductForm = () => {
           required
         />
 
-        <input
+        {/* <input
           type="number"
           placeholder="Old Price (optional)"
           value={oldPrice}
           onChange={(e) => setOldPrice(e.target.value)}
           style={input}
-        />
+        /> */}
 
         {/* <input
           type="number"

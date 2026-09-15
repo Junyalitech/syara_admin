@@ -42,21 +42,44 @@ const DisplayProducts = () => {
 
     // Handle product deletion
     const handleDelete = async (id) => {
-        console.log(`Attempting to delete product with slug: ${id}`);
+        const product = products.find(product => product.id === id);
+
+        if (!product) {
+            alert("Product not found.");
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Are you sure you want to deactivate "${product.productName}"?\n\n` +
+            `This product will no longer be visible to customers.`
+        );
+
+        if (!confirmed) {
+            return;
+        }
 
         try {
             setDeleteLoadingId(id);
-            await axios.delete(`${process.env.REACT_APP_API_URL}/products/${id}`);
-            console.log(`Product with slug: ${id} successfully deleted.`);
 
-            const deletedProduct = products.find(product => product.id === id);
-            alert(`Product "${deletedProduct.productName}" deleted successfully.`);
+            await axios.delete(
+                `${process.env.REACT_APP_API_URL}/products/${id}`
+            );
 
-            setProducts(products.filter(product => product.id !== id));
+            alert(`Product "${product.productName}" deactivated successfully.`);
+
+            // Remove from current active product list
+            setProducts(
+                products.filter(product => product.id !== id)
+            );
+
         } catch (error) {
-            console.error('Error deleting product:', error);
-        }
-        finally {
+            console.error("Error deactivating product:", error);
+
+            alert(
+                error.response?.data?.message ||
+                "Failed to deactivate product."
+            );
+        } finally {
             setDeleteLoadingId(null);
         }
     };
@@ -119,7 +142,7 @@ const DisplayProducts = () => {
         } catch (error) {
             console.error("Stock update error:", error);
         }
-        finally{
+        finally {
             setStockLoadingId(null);
         }
     };
