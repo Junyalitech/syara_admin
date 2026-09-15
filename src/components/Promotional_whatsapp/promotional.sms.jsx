@@ -29,6 +29,8 @@ const PromotionalMessages = () => {
           ? { discount: Number(discount) }
           : {};
 
+
+      
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
