@@ -244,7 +244,7 @@ const ShippingPage = () => {
                         {form.free_delivery_available && (
                             <input
                                 className="input small"
-                                placeholder="Delivery Time (e.g. 3-5 days)"
+                                placeholder="Delivery Time (e.g. 1-2 days)"
                                 value={form.free_delivery_time}
                                 onChange={(e) =>
                                     setForm({ ...form, free_delivery_time: e.target.value })
@@ -279,7 +279,7 @@ const ShippingPage = () => {
 
                                 <input
                                     className="input small"
-                                    placeholder="Delivery Time (e.g. 2-3 hrs)"
+                                    placeholder="Delivery Time (e.g. 1-2 days)"
                                     value={form.porter_time}
                                     onChange={(e) =>
                                         setForm({ ...form, porter_time: e.target.value })
@@ -305,7 +305,7 @@ const ShippingPage = () => {
                             <>
                                 <input
                                     className="input small"
-                                    placeholder="₹ Charge"
+                                    placeholder="₹ Charge per kg"
                                     value={form.courier_road_charge}
                                     onChange={(e) =>
                                         setForm({ ...form, courier_road_charge: e.target.value })
@@ -314,7 +314,7 @@ const ShippingPage = () => {
 
                                 <input
                                     className="input small"
-                                    placeholder="Delivery Time (e.g. 2-4 days)"
+                                    placeholder="Delivery Time (e.g. 1-2 days)"
                                     value={form.courier_road_time}
                                     onChange={(e) =>
                                         setForm({ ...form, courier_road_time: e.target.value })
@@ -340,7 +340,7 @@ const ShippingPage = () => {
                             <>
                                 <input
                                     className="input small"
-                                    placeholder="₹ Charge"
+                                    placeholder="₹ Charge per kg"
                                     value={form.courier_air_charge}
                                     onChange={(e) =>
                                         setForm({ ...form, courier_air_charge: e.target.value })
@@ -375,8 +375,8 @@ const ShippingPage = () => {
                                 <th>Pincode</th>
                                 <th>Free</th>
                                 <th>Porter</th>
-                                <th>Courier (Road)</th>
-                                <th>Courier (Air)</th>
+                                <th>Courier (Road)/kg</th>
+                                <th>Courier (Air)/kg</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -423,7 +423,7 @@ const ShippingPage = () => {
                                         <td>
                                             {item.courier_road_available ? (
                                                 <>
-                                                    <span className="price">₹{item.courier_road_charge}</span>
+                                                    <span className="price">₹{item.courier_road_charge}/kg</span>
                                                     <div className="time">{item.courier_road_time}</div>
                                                 </>
                                             ) : (
@@ -435,7 +435,7 @@ const ShippingPage = () => {
                                         <td>
                                             {item.courier_air_available ? (
                                                 <>
-                                                    <span className="price">₹{item.courier_air_charge}</span>
+                                                    <span className="price">₹{item.courier_air_charge}/kg</span>
                                                     <div className="time">{item.courier_air_time}</div>
                                                 </>
                                             ) : (
