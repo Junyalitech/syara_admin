@@ -92,17 +92,103 @@ const DisplayProducts = () => {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+
+        // Check selected pack options
+        const has1kg =
+            currentProduct.packeoption1kg === true ||
+            currentProduct.packeoption1kg === "Available";
+
+        const has500gm =
+            currentProduct.packeoption500gm === true ||
+            currentProduct.packeoption500gm === "Available";
+
+        // At least one pack must be selected
+        if (!has1kg && !has500gm) {
+            alert(
+                currentProduct.is_liquid
+                    ? "Please select at least one pack option: 1L or 500ml."
+                    : "Please select at least one pack option: 1kg or 500gm."
+            );
+            return;
+        }
+
+        // Only validate price of selected pack
+        if (has1kg && !currentProduct.packeoption1kgrate) {
+            alert(
+                currentProduct.is_liquid
+                    ? "Please enter 1L price."
+                    : "Please enter 1kg price."
+            );
+            return;
+        }
+
+        if (has500gm && !currentProduct.packeoption500gmrate) {
+            alert(
+                currentProduct.is_liquid
+                    ? "Please enter 500ml price."
+                    : "Please enter 500gm price."
+            );
+            return;
+        }
+
+        // Base price logic
+        // If 1kg/1L exists, use that price.
+        // Otherwise use 500gm/500ml price.
+        const finalPrice = has1kg
+            ? currentProduct.packeoption1kgrate
+            : currentProduct.packeoption500gmrate;
+
+        const updatedProduct = {
+            ...currentProduct,
+
+            // Automatically set base price
+            price: Number(finalPrice),
+
+            // Save availability correctly
+            packeoption1kg: has1kg ? "Available" : "Not Available",
+            packeoption500gm: has500gm ? "Available" : "Not Available",
+
+            // Don't send old price when pack is no longer selected
+            packeoption1kgrate: has1kg
+                ? currentProduct.packeoption1kgrate
+                : null,
+
+            packeoption500gmrate: has500gm
+                ? currentProduct.packeoption500gmrate
+                : null,
+        };
+
         try {
             setEditLoading(true);
-            await axios.put(`${process.env.REACT_APP_API_URL}/products/${currentProduct.slug}`, currentProduct); // Use slug instead of id
-            alert(`Product "${currentProduct.productName}" updated successfully.`);
-            setProducts(products.map(product => product.slug === currentProduct.slug ? currentProduct : product));
+
+            await axios.put(
+                `${process.env.REACT_APP_API_URL}/products/${currentProduct.slug}`,
+                updatedProduct
+            );
+
+            alert(
+                `Product "${currentProduct.productName}" updated successfully.`
+            );
+
+            setProducts(
+                products.map(product =>
+                    product.slug === currentProduct.slug
+                        ? updatedProduct
+                        : product
+                )
+            );
+
             setIsEditing(false);
             setCurrentProduct(null);
+
         } catch (error) {
-            console.error('Error updating product:', error);
-        }
-        finally {
+            console.error("Error updating product:", error);
+
+            alert(
+                error.response?.data?.message ||
+                "Failed to update product."
+            );
+        } finally {
             setEditLoading(false);
         }
     };
@@ -273,8 +359,83 @@ const DisplayProducts = () => {
                             style={input}
                         />
 
+                        {/* Pack Options */}
+                        <label style={label}>Pack Options</label>
+
+                        <div style={checkboxRow}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={
+                                        currentProduct.packeoption1kg === true ||
+                                        currentProduct.packeoption1kg === "Available"
+                                    }
+                                    onChange={(e) =>
+                                        handleInputChange({
+                                            target: {
+                                                name: "packeoption1kg",
+                                                value: e.target.checked
+                                                    ? "Available"
+                                                    : "Not Available"
+                                            }
+                                        })
+                                    }
+                                />
+
+                                {currentProduct.is_liquid ? " 1L" : " 1kg"}
+                            </label>
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={
+                                        currentProduct.packeoption500gm === true ||
+                                        currentProduct.packeoption500gm === "Available"
+                                    }
+                                    onChange={(e) =>
+                                        handleInputChange({
+                                            target: {
+                                                name: "packeoption500gm",
+                                                value: e.target.checked
+                                                    ? "Available"
+                                                    : "Not Available"
+                                            }
+                                        })
+                                    }
+                                />
+
+                                {currentProduct.is_liquid ? " 500ml" : " 500gm"}
+                            </label>
+                        </div>
+
                         {/* Prices */}
-                        <label style={label}>1{currentProduct.is_liquid ? 'L' : 'kg'} Price</label>
+
+                        <label style={label}>
+                            1{currentProduct.is_liquid ? "L" : "kg"} Price
+                        </label>
+
+                        <input
+                            type="number"
+                            name="packeoption1kgrate"
+                            value={currentProduct.packeoption1kgrate || ""}
+                            onChange={handleInputChange}
+                            style={input}
+                        />
+
+                        <label style={label}>
+                            500{currentProduct.is_liquid ? "ml" : "g"} Price
+                        </label>
+
+                        <input
+                            type="number"
+                            name="packeoption500gmrate"
+                            value={currentProduct.packeoption500gmrate || ""}
+                            onChange={handleInputChange}
+                            style={input}
+                        />
+
+                        {/* Prices */}
+                        {/* <label style={label}>1{currentProduct.is_liquid ? 'L' : 'kg'} Price</label>
                         <input
                             type="number"
                             name="packeoption1kgrate"
@@ -290,7 +451,7 @@ const DisplayProducts = () => {
                             value={currentProduct.packeoption500gmrate || ""}
                             onChange={handleInputChange}
                             style={input}
-                        />
+                        /> */}
 
                         {/* Liquid */}
                         <label style={label}>
@@ -370,8 +531,8 @@ const DisplayProducts = () => {
                                     </p>
 
                                     <div style={priceBox}>
-                                        <p><strong>{product.is_liquid ? '1L' : '1kg'}:</strong> ₹ {product.packeoption1kgrate}</p>
-                                        <p><strong>{product.is_liquid ? '500ml' : '500g'}:</strong> ₹ {product.packeoption500gmrate}</p>
+                                        {product.packeoption1kgrate && <p><strong>{product.is_liquid ? '1L' : '1kg'}:</strong> ₹ {product.packeoption1kgrate}</p>}
+                                        {product.packeoption500gmrate && <p><strong>{product.is_liquid ? '500ml' : '500g'}:</strong> ₹ {product.packeoption500gmrate}</p>}
                                     </div>
 
                                     <p style={stock}>
