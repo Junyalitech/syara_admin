@@ -89,6 +89,7 @@ const ProductForm = () => {
     }));
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,31 +102,91 @@ const ProductForm = () => {
       return;
     }
 
+    // At least one pack option must be selected
+    if (!packeoption1kg && !packeoption500gm) {
+      alert(
+        isLiquid
+          ? "Please select at least one pack option: 1L or 500ml."
+          : "Please select at least one pack option: 1kg or 500gm."
+      );
+      return;
+    }
+
+    // Validate selected pack prices
+    if (packeoption1kg && !packeoption1kgrate) {
+      alert(isLiquid ? "Please enter 1L price." : "Please enter 1kg price.");
+      return;
+    }
+
+    if (packeoption500gm && !packeoption500gmrate) {
+      alert(
+        isLiquid
+          ? "Please enter 500ml price."
+          : "Please enter 500gm price."
+      );
+      return;
+    }
+
+    /*
+      Price logic:
+      - Both selected      => 1kg / 1L price
+      - Only 1kg / 1L      => 1kg / 1L price
+      - Only 500gm / 500ml => 500gm / 500ml price
+    */
+    let finalPrice = "";
+
+    if (packeoption1kg) {
+      finalPrice = packeoption1kgrate;
+    } else if (packeoption500gm) {
+      finalPrice = packeoption500gmrate;
+    }
+
+    setPrice(finalPrice);
+
     const formData = new FormData();
-    formData.append('productName', productName);
-    formData.append('categoryId', category); // Use category ID here
-    formData.append('price', Number(price)); // Convert to number
-    formData.append('description', description);
-    formData.append('nickname1', nickname1);
-    formData.append('nickname2', nickname2);
-    formData.append('nickname3', nickname3);
-    formData.append('packeoption1kg', packeoption1kg ? 'Available' : 'Not Available');
-    formData.append('packeoption500gm', packeoption500gm ? 'Available' : 'Not Available');
-    formData.append('packeoption1kgrate', packeoption1kgrate || null);
-    formData.append('packeoption500gmrate', packeoption500gmrate || null);
-    formData.append('video', video);
-    formData.append('recipe', recipe);
-    formData.append('productNamealsoyoumaylike', productNamealsoyoumaylike);
-    formData.append('link', link);
-    formData.append('restriction', restriction);
-    formData.append('type', type);
-    formData.append('newLaunch', newLaunch); // Append newLaunch state
-    formData.append('OurComOffer', OurComOffer); // Append OurComOffer state
-    formData.append('stock', Number(stock));
-    formData.append('rating', Number(rating));
-    // formData.append('review', review);
-    formData.append('oldPrice', oldPrice);
-    formData.append('is_liquid', isLiquid);
+
+    formData.append("productName", productName);
+    formData.append("categoryId", category);
+
+    // Automatically assigned price
+    formData.append("price", Number(finalPrice));
+
+    formData.append("description", description);
+    formData.append("nickname1", nickname1);
+    formData.append("nickname2", nickname2);
+    formData.append("nickname3", nickname3);
+
+    formData.append(
+      "packeoption1kg",
+      packeoption1kg ? "Available" : "Not Available"
+    );
+
+    formData.append(
+      "packeoption500gm",
+      packeoption500gm ? "Available" : "Not Available"
+    );
+
+    formData.append("packeoption1kgrate", packeoption1kg ? packeoption1kgrate : null);
+    formData.append(
+      "packeoption500gmrate",
+      packeoption500gm ? packeoption500gmrate : null
+    );
+
+    formData.append("video", video);
+    formData.append("recipe", recipe);
+    formData.append(
+      "productNamealsoyoumaylike",
+      productNamealsoyoumaylike
+    );
+    formData.append("link", link);
+    formData.append("restriction", restriction);
+    formData.append("type", type);
+    formData.append("newLaunch", newLaunch);
+    formData.append("OurComOffer", OurComOffer);
+    formData.append("stock", Number(stock));
+    formData.append("rating", Number(rating));
+    formData.append("oldPrice", oldPrice);
+    formData.append("is_liquid", isLiquid);
 
     Object.keys(images).forEach((key) => {
       if (images[key]) {
@@ -134,25 +195,34 @@ const ProductForm = () => {
     });
 
     try {
-
       setLoading(true);
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/products`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('Response:', response);
 
-      alert('Product added successfully');
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/products`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Response:", response);
+
+      alert("Product added successfully");
       resetForm();
     } catch (error) {
-      console.error('Error adding product:', error.response ? error.response.data : error.message);
-      alert('Failed to add product');
-    }
-    finally {
-      setLoading(false); // ✅ STOP LOADING
+      console.error(
+        "Error adding product:",
+        error.response ? error.response.data : error.message
+      );
+
+      alert("Failed to add product");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const formStyle = {
     maxWidth: '800px',
@@ -204,7 +274,7 @@ const ProductForm = () => {
           ))}
         </select>
 
-        <input
+        {/*<input
           type="number"
           placeholder="Price ₹ *"
           value={price}
@@ -212,6 +282,7 @@ const ProductForm = () => {
           style={input}
           required
         />
+        */}
 
         <input
           type="number"

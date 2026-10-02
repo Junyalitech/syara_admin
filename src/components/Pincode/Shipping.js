@@ -41,29 +41,62 @@ const ShippingPage = () => {
     }, []);
 
     // ✅ VALIDATION
-    const validate = () => {
-        if (!/^\d{6}$/.test(form.pincode)) {
-            alert("Invalid pincode");
+    // ✅ VALIDATION
+const validate = () => {
+    if (!/^\d{6}$/.test(form.pincode)) {
+        alert("Invalid pincode");
+        return false;
+    }
+
+    // FREE DELIVERY
+    if (form.free_delivery_available) {
+        if (!String(form.free_delivery_time || "").trim()) {
+            alert("Enter free delivery time");
             return false;
         }
+    }
 
-        if (form.porter_available && !form.porter_charge) {
+    // PORTER
+    if (form.porter_available) {
+        if (!String(form.porter_charge || "").trim()) {
             alert("Enter porter charge");
             return false;
         }
 
-        if (form.courier_road_available && !form.courier_road_charge) {
-            alert("Enter road charge");
+        if (!String(form.porter_time || "").trim()) {
+            alert("Enter porter delivery time");
+            return false;
+        }
+    }
+
+    // COURIER ROAD
+    if (form.courier_road_available) {
+        if (!String(form.courier_road_charge || "").trim()) {
+            alert("Enter Courier road charge");
             return false;
         }
 
-        if (form.courier_air_available && !form.courier_air_charge) {
-            alert("Enter air charge");
+        if (!String(form.courier_road_time || "").trim()) {
+            alert("Enter Courier road delivery time");
+            return false;
+        }
+    }
+
+    // COURIER AIR
+    if (form.courier_air_available) {
+        if (!String(form.courier_air_charge || "").trim()) {
+            alert("Enter Courier air charge");
             return false;
         }
 
-        return true;
-    };
+        if (!String(form.courier_air_time || "").trim()) {
+            alert("Enter Courier air delivery time");
+            return false;
+        }
+    }
+
+    return true;
+};
 
     // ✅ TOGGLE LOGIC
     const handleToggle = (field) => {
