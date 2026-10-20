@@ -5,9 +5,12 @@ import "./TopCategory.css";
 const TopCategory = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [headerImage, setHeaderImage] = useState(null);
+  const [headerImagePreview, setHeaderImagePreview] = useState(null);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
   const [items, setItems] = useState([]);
 
@@ -43,6 +46,24 @@ const TopCategory = () => {
   };
 
   // =========================
+  // HEADER IMAGE CHANGE
+  // =========================
+  const handleHeaderImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+
+    if (!selectedImage) return;
+
+    if (!selectedImage.type.startsWith("image/")) {
+      alert("Please select a valid header image file.");
+      e.target.value = "";
+      return;
+    }
+
+    setHeaderImage(selectedImage);
+    setHeaderImagePreview(URL.createObjectURL(selectedImage));
+  };
+
+  // =========================
   // NAME CHANGE
   // =========================
   const handleNameChange = (e) => {
@@ -62,6 +83,8 @@ const TopCategory = () => {
   const resetForm = () => {
     setImage(null);
     setImagePreview(null);
+    setHeaderImage(null);
+    setHeaderImagePreview(null);
     setName('');
     setDescription('');
     setEditingSlug(null);
@@ -97,9 +120,15 @@ const TopCategory = () => {
       return;
     }
 
-    // Image required only while creating
+    // Both images are required when creating a category.
+    // During editing, existing images are retained unless replaced.
     if (!editingSlug && !image) {
       alert("Please select a category image.");
+      return;
+    }
+
+    if (!headerImagePreview && !headerImage) {
+      alert("Please select a category header image.");
       return;
     }
 
@@ -108,9 +137,13 @@ const TopCategory = () => {
     formData.append("name", name.trim());
     formData.append("description", description.trim());
 
-    // Only send image if selected
+    // Only send images when a new file is selected.
     if (image) {
       formData.append("image", image);
+    }
+
+    if (headerImage) {
+      formData.append("headerImage", headerImage);
     }
 
     try {
@@ -245,6 +278,17 @@ const TopCategory = () => {
     }
 
     setImage(null);
+
+    // Existing header image preview
+    if (item.headerImage) {
+      setHeaderImagePreview(
+        `${process.env.REACT_APP_API_URL}/public/userImages/${item.headerImage}`
+      );
+    } else {
+      setHeaderImagePreview(null);
+    }
+
+    setHeaderImage(null);
 
     // Scroll to form
     window.scrollTo({
@@ -397,6 +441,64 @@ const TopCategory = () => {
 
         </div>
 
+        {/* CATEGORY HEADER IMAGE UPLOAD */}
+        <div className="category-image-upload">
+          <label className="field-label">Category Header Image <span className="required-mark">*</span></label>
+
+          {headerImagePreview ? (
+            <div className="category-preview-box category-header-preview-box">
+              <div className="category-header-preview-image-wrapper">
+                <img
+                  src={headerImagePreview}
+                  alt="Category header preview"
+                  className="category-header-preview-image"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+                <button
+                  type="button"
+                  className="remove-image-button"
+                  onClick={() => {
+                    setHeaderImage(null);
+                    setHeaderImagePreview(null);
+                  }}
+                  title="Remove header image"
+                  aria-label="Remove header image"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="category-preview-info">
+                <span className="preview-title">
+                  {headerImage ? headerImage.name : "Current category header image"}
+                </span>
+                <label className="change-image-button">
+                  Change Header Image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleHeaderImageChange}
+                  />
+                </label>
+              </div>
+            </div>
+          ) : (
+            <label className="category-upload-box category-header-upload-box">
+              <div className="upload-icon">🖼️</div>
+              <span className="upload-main-text">Choose Category Header Image</span>
+              <span className="upload-sub-text">PNG, JPG or JPEG</span>
+              <input
+                type="file"
+                accept="image/*"
+                required={!headerImagePreview}
+                onChange={handleHeaderImageChange}
+              />
+            </label>
+          )}
+        </div>
+
         {/* IMAGE INPUT */}
         {/* <label className="custom-file-upload">
 
@@ -422,14 +524,21 @@ const TopCategory = () => {
           value={name}
           onChange={handleNameChange}
           placeholder="Enter Name"
+          required
         />
 
         <textarea
           className="description-input"
           value={description}
           onChange={handleDescriptionChange}
-          placeholder="Enter Description"
+          placeholder="Enter category description (recommended: 250 characters or less)"
+          maxLength={1000}
+          required
         />
+        <div className="description-counter">
+          <span>{description.length}/1000 characters</span>
+          <span className="description-counter-hint">Recommended: 250 characters or less</span>
+        </div>
 
         <button
           className="upload-button1"
@@ -471,6 +580,7 @@ const TopCategory = () => {
           <thead>
             <tr>
               <th>Image</th>
+              <th>Header Image</th>
               <th>Name</th>
               <th>Description</th>
               <th>Action</th>
@@ -482,7 +592,7 @@ const TopCategory = () => {
             {dataLoading ? (
               <tr>
                 <td
-                  colSpan="4"
+                  colSpan="5"
                   style={{
                     textAlign: "center",
                     padding: "20px"
@@ -494,7 +604,7 @@ const TopCategory = () => {
             ) : items.length === 0 ? (
               <tr>
                 <td
-                  colSpan="4"
+                  colSpan="5"
                   style={{
                     textAlign: "center",
                     padding: "20px"
@@ -530,14 +640,58 @@ const TopCategory = () => {
 
                   </td>
 
+                  {/* HEADER IMAGE */}
+                  <td>
+                    {item.headerImage ? (
+                      <img
+                        className="category-table-header-image"
+                        src={`${process.env.REACT_APP_API_URL}/public/userImages/${item.headerImage}`}
+                        alt={`${item.name || "Category"} header`}
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <span className="no-image-label">No header image</span>
+                    )}
+                  </td>
+
                   {/* NAME */}
                   <td>
                     {item.name}
                   </td>
 
-                  {/* DESCRIPTION */}
-                  <td>
-                    {item.description}
+                  {/* DESCRIPTION WITH READ MORE */}
+                  <td className="description-table-cell">
+                    {(() => {
+                      const fullDescription = item.description || "";
+                      const isLong = fullDescription.length > 100;
+                      const isExpanded = Boolean(expandedDescriptions[item.id]);
+
+                      return (
+                        <>
+                          <span className="description-preview-text">
+                            {isLong && !isExpanded
+                              ? `${fullDescription.slice(0, 100).trim()}...`
+                              : fullDescription || "—"}
+                          </span>
+                          {isLong && (
+                            <button
+                              type="button"
+                              className="read-more-button"
+                              onClick={() =>
+                                setExpandedDescriptions((prev) => ({
+                                  ...prev,
+                                  [item.id]: !prev[item.id]
+                                }))
+                              }
+                            >
+                              {isExpanded ? "Read less" : "Read more"}
+                            </button>
+                          )}
+                        </>
+                      );
+                    })()}
                   </td>
 
                   {/* ACTIONS */}

@@ -477,7 +477,7 @@ const validate = () => {
                                         </td>
 
                                         {/* ACTIONS */}
-                                        <td className="actions">
+                                        <td className="actions" style={{height:"100%"}}>
                                             <button className="btn edit" onClick={() => handleEdit(item)}>
                                                 Edit
                                             </button>

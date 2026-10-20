@@ -125,7 +125,7 @@
 .category-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 900px;
 }
 
 .category-table thead {
@@ -1184,4 +1184,132 @@
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid #d5dce3;
+}
+
+
+/* =========================================
+   CATEGORY HEADER IMAGE + DESCRIPTION READ MORE
+========================================= */
+
+.field-label {
+  display: block;
+  margin: 0 0 10px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.required-mark {
+  color: #dc2626;
+}
+
+.category-header-preview-box {
+  align-items: center;
+}
+
+.category-header-preview-image-wrapper {
+  position: relative;
+  width: 180px;
+  height: 100px;
+  flex: 0 0 180px;
+  overflow: visible;
+}
+
+.category-header-preview-image {
+  display: block;
+  width: 180px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #d5dce3;
+  border-radius: 10px;
+}
+
+.category-header-upload-box {
+  min-height: 150px;
+}
+
+.category-table-header-image {
+  width: 150px !important;
+  height: 75px !important;
+  object-fit: cover;
+  border-radius: 8px !important;
+}
+
+.no-image-label {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.description-table-cell {
+  min-width: 220px;
+  max-width: 360px;
+  text-align: left !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.description-preview-text {
+  display: inline;
+  line-height: 1.5;
+}
+
+.read-more-button {
+  display: inline-block;
+  margin: 6px 0 0 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #267331;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.read-more-button:hover {
+  color: #174d22;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .category-header-preview-image-wrapper,
+  .category-header-preview-image {
+    width: 120px;
+    height: 80px;
+  }
+
+  .category-header-preview-image-wrapper {
+    flex-basis: 120px;
+  }
+
+  .category-table-header-image {
+    width: 110px !important;
+    height: 65px !important;
+  }
+}
+
+
+/* Category description character counter */
+.description-counter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin-top: -8px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.description-counter-hint {
+  color: #318134;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .description-counter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
