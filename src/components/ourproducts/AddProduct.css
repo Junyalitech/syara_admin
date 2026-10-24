@@ -37,8 +37,8 @@
 .product-form__variants { display: grid; gap: 12px; }
 .product-form__variant { padding: 17px; background: #f8fbf7; border: 1px solid #e1eadf; border-radius: 12px; }
 .product-form__variant-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; color: #2d482a; font-size: 14px; }
-.product-form__variant-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 0; gap: 12px; }
-.product-form__variant-grid .product-form__field { margin-bottom: 0; }
+.product-form__variant-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: 0; gap: 12px; }
+.product-form__variant-grid .product-form__field { margin-bottom: 0; }\n.product-form__field-help { color: #748074; font-size: 11px; line-height: 1.35; }
 .product-form__remove { padding: 5px 9px; color: #b42318; background: #fff; border: 1px solid #f1c8c5; border-radius: 7px; cursor: pointer; font-size: 12px; font-weight: 650; }
 .product-form__hint { margin: 13px 0 0; color: #748074; font-size: 12px; line-height: 1.5; }
 .product-form__toggles { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-bottom: 20px; }

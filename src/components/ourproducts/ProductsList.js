@@ -15,6 +15,7 @@ const emptyVariant = () => ({
   quantity: "",
   unit: "g",
   price: "",
+  sellingPrice: "",
   stock: "0",
   sku: "",
 });
@@ -25,6 +26,7 @@ const normalizeVariants = (variants) =>
     quantity: String(variant.quantity ?? ""),
     unit: variant.unit || "g",
     price: String(variant.price ?? ""),
+    sellingPrice: String(variant.sellingPrice ?? variant.price ?? ""),
     stock: String(variant.stock ?? 0),
     sku: variant.sku || "",
   }));
@@ -193,7 +195,8 @@ const DisplayProducts = () => {
     for (let i = 0; i < variants.length; i += 1) {
       const variant = variants[i];
       const quantity = Number(variant.quantity);
-      const price = Number(variant.price);
+      const price = Number(variant.price); // MRP
+      const sellingPrice = variant.sellingPrice === "" ? price : Number(variant.sellingPrice);
       const stock = Number(variant.stock);
       const key = `${quantity}:${variant.unit}`;
 
@@ -206,7 +209,14 @@ const DisplayProducts = () => {
         return false;
       }
       if (!variant.price || !Number.isFinite(price) || price <= 0) {
-        alert(`Packet ${i + 1}: price must be greater than ₹0.`);
+        alert(`Packet ${i + 1}: MRP must be greater than ₹0.`);
+        return false;
+      }
+      if (
+        variant.sellingPrice !== "" &&
+        (!Number.isFinite(sellingPrice) || sellingPrice <= 0 || sellingPrice > price)
+      ) {
+        alert(`Packet ${i + 1}: selling price must be greater than ₹0 and cannot exceed MRP.`);
         return false;
       }
       if (!Number.isInteger(stock) || stock < 0 || String(variant.stock).trim() === "") {
@@ -272,6 +282,7 @@ const DisplayProducts = () => {
           quantity: Number(variant.quantity),
           unit: variant.unit,
           price: Number(variant.price),
+          sellingPrice: variant.sellingPrice === "" ? Number(variant.price) : Number(variant.sellingPrice),
           stock: Number(variant.stock),
           sku: variant.sku.trim() || null,
         }))
@@ -397,8 +408,8 @@ const DisplayProducts = () => {
           <div className="selected-variant">
             <span>Packet size</span>
             <strong>{formatQuantity(stockVariant.quantity, stockVariant.unit)}</strong>
-            <span>Price</span>
-            <strong>₹{Number(stockVariant.price).toFixed(2)}</strong>
+            <span>MRP / Selling price</span>
+            <strong>₹{Number(stockVariant.price).toFixed(2)} / ₹{Number(stockVariant.sellingPrice ?? stockVariant.price).toFixed(2)}</strong>
           </div>
           <label className="admin-field">
             <span>Stock (packets)</span>
@@ -537,7 +548,7 @@ const DisplayProducts = () => {
             <div className="variant-editor__heading">
               <div>
                 <h3>Packet options</h3>
-                <p>Each option has its own price and stock. Removed options are deactivated on save.</p>
+                <p>Each option has its own MRP, optional selling price, and stock. Leave selling price blank to use MRP. Removed options are deactivated on save.</p>
               </div>
               <button type="button" className="admin-button admin-button--secondary" onClick={addVariant}>
                 + Add packet
@@ -575,7 +586,7 @@ const DisplayProducts = () => {
                     </select>
                   </label>
                   <label className="admin-field">
-                    <span>Selling price (₹) *</span>
+                    <span>MRP (₹) *</span>
                     <input
                       type="number"
                       min="0.01"
@@ -584,6 +595,19 @@ const DisplayProducts = () => {
                       value={variant.price}
                       onChange={(event) => updateVariant(index, "price", event.target.value)}
                     />
+                  </label>
+                  <label className="admin-field">
+                    <span>Selling price (₹) <small className="optional-label">optional</small></span>
+                    <input
+                      type="number"
+                      min="0.01"
+                      step="0.01"
+                      max={variant.price || undefined}
+                      placeholder="Leave blank to use MRP"
+                      value={variant.sellingPrice}
+                      onChange={(event) => updateVariant(index, "sellingPrice", event.target.value)}
+                    />
+                    <small className="field-help">Leave blank to sell at MRP. Cannot exceed MRP.</small>
                   </label>
                   <label className="admin-field">
                     <span>Stock (packets) *</span>
@@ -669,7 +693,19 @@ const DisplayProducts = () => {
                       <div className="product-variant" key={variant.id}>
                         <div>
                           <strong>{formatQuantity(variant.quantity, variant.unit)}</strong>
-                          <span>₹{Number(variant.price).toFixed(2)}</span>
+                          <span className="product-variant__prices">
+                            {Number(variant.sellingPrice ?? variant.price) < Number(variant.price) ? (
+                              <>
+                                <strong className="product-variant__selling-price">₹{Number(variant.sellingPrice).toFixed(2)}</strong>
+                                <del className="product-variant__mrp">₹{Number(variant.price).toFixed(2)}</del>
+                                <small className="product-variant__discount">
+                                  {Math.round((1 - Number(variant.sellingPrice) / Number(variant.price)) * 100)}% OFF
+                                </small>
+                              </>
+                            ) : (
+                              <strong className="product-variant__selling-price">₹{Number(variant.sellingPrice ?? variant.price).toFixed(2)}</strong>
+                            )}
+                          </span>
                         </div>
                         <div className="product-variant__inventory">
                           <span className={Number(variant.stock) > 0 ? "stock-indicator" : "stock-indicator stock-indicator--empty"}>

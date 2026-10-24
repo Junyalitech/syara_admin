@@ -3,7 +3,7 @@ import axios from "axios";
 import "./AddProduct.css";
 
 const API_URL = process.env.REACT_APP_API_URL;
-const createEmptyVariant = () => ({ quantity: "", unit: "g", price: "", stock: "0" });
+const createEmptyVariant = () => ({ quantity: "", unit: "g", price: "", sellingPrice: "", stock: "0" });
 
 const ProductForm = () => {
   const fileInputRefs = useRef({});
@@ -91,9 +91,9 @@ const ProductForm = () => {
       if (value !== "0." && value !== "" && Number(value) === 0) return;
     }
 
-    if (field === "price") {
+    if (field === "price" || field === "sellingPrice") {
       if (value !== "" && !/^\d*(?:\.\d{0,2})?$/.test(value)) return;
-      // Price must be positive. Allow only the temporary "0." prefix for decimals.
+      // Prices must be positive. Allow only the temporary "0." prefix for decimals.
       if (value !== "0." && value !== "" && Number(value) === 0) return;
     }
 
@@ -164,17 +164,23 @@ const ProductForm = () => {
     for (let index = 0; index < variants.length; index += 1) {
       const variant = variants[index];
       const quantity = Number(variant.quantity);
-      const price = Number(variant.price);
+      const price = Number(variant.price); // MRP
+      const sellingPrice = Number(variant.sellingPrice);
       const stock = Number(variant.stock);
 
       if (
         variant.quantity === "" || !Number.isFinite(quantity) || quantity <= 0 ||
         variant.price === "" || !Number.isFinite(price) || price <= 0 ||
         !/^\d+(\.\d{1,2})?$/.test(String(variant.price).trim()) ||
+        (variant.sellingPrice !== "" && (
+          !Number.isFinite(sellingPrice) || sellingPrice <= 0 ||
+          !/^\d+(\.\d{1,2})?$/.test(String(variant.sellingPrice).trim()) ||
+          sellingPrice > price
+        )) ||
         variant.stock === "" || !Number.isSafeInteger(stock) || stock < 0 ||
         !["g", "kg", "ml", "l", "pcs"].includes(variant.unit)
       ) {
-        alert(`Packet option ${index + 1}: quantity must be greater than 0, price must be greater than ₹0 (up to 2 decimal places), and stock must be a non-negative whole number.`);
+        alert(`Packet option ${index + 1}: enter a valid quantity, MRP and selling price (up to 2 decimal places). Selling price must not exceed MRP, and stock must be a non-negative whole number.`);
         return;
       }
 
@@ -184,7 +190,9 @@ const ProductForm = () => {
         return;
       }
       seenSizes.add(sizeKey);
-      normalizedVariants.push({ quantity, unit: variant.unit, price, stock });
+      // Selling price is optional; when omitted, customers pay the MRP.
+      const finalSellingPrice = variant.sellingPrice === "" ? price : sellingPrice;
+      normalizedVariants.push({ quantity, unit: variant.unit, price, sellingPrice: finalSellingPrice, stock });
     }
 
     const formData = new FormData();
@@ -263,7 +271,7 @@ const ProductForm = () => {
         <div className="product-form__section-heading">
           <div>
             <h3>Packet options and pricing</h3>
-            <p>Add a separate price and stock quantity for each packet size.</p>
+            <p>Set MRP for each packet size. Add a selling price only when offering a discount.</p>
           </div>
           <button className="product-form__button product-form__button--secondary" type="button" onClick={addVariant}>＋ Add packet</button>
         </div>
@@ -293,8 +301,13 @@ const ProductForm = () => {
                   </select>
                 </label>
                 <label className="product-form__field">
-                  <span>Selling price (₹) <b>*</b></span>
-                  <input type="text" inputMode="decimal" placeholder="e.g. 80.00" value={variant.price} onChange={(e) => updateVariant(index, "price", e.target.value)} onBlur={() => handlePositiveFieldBlur(index, "price", "Selling price")} required />
+                  <span>MRP (₹) <b>*</b></span>
+                  <input type="text" inputMode="decimal" placeholder="e.g. 100.00" value={variant.price} onChange={(e) => updateVariant(index, "price", e.target.value)} onBlur={() => handlePositiveFieldBlur(index, "price", "MRP")} required />
+                </label>
+                <label className="product-form__field">
+                  <span>Selling price (₹)</span>
+                  <input type="text" inputMode="decimal" placeholder="Leave blank to use MRP" value={variant.sellingPrice} onChange={(e) => updateVariant(index, "sellingPrice", e.target.value)} onBlur={() => { if (variant.sellingPrice !== "") handlePositiveFieldBlur(index, "sellingPrice", "Selling price"); }} aria-describedby={`selling-price-help-${index}`} />
+                  <small className="product-form__field-help" id={`selling-price-help-${index}`}>Optional. Leave blank to sell at MRP. Must not exceed MRP.</small>
                 </label>
                 <label className="product-form__field">
                   <span>Available stock (packets) <b>*</b></span>
@@ -304,7 +317,7 @@ const ProductForm = () => {
             </div>
           ))}
         </div>
-        <p className="product-form__hint">Example: 10 g at ₹10 and 100 g at ₹80 are two separate variants with independent stock.</p>
+        <p className="product-form__hint">Example: MRP ₹100 and selling price ₹80 gives a 20% discount. If selling price is left blank, MRP ₹100 is used as the selling price.</p>
       </section>
 
       <section className="product-form__section">
@@ -347,14 +360,14 @@ const ProductForm = () => {
             <span>Related link</span>
             <input type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
           </label>
-          <label className="product-form__field">
+          {/* <label className="product-form__field">
             <span>Restriction</span>
             <input type="text" value={restriction} onChange={(e) => setRestriction(e.target.value)} placeholder="Optional" />
           </label>
           <label className="product-form__field">
             <span>Product type</span>
             <input type="text" value={type} onChange={(e) => setType(e.target.value)} placeholder="Optional" />
-          </label>
+          </label> */}
         </div>
       </section>
 
